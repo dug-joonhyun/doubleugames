@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>마케팅팀 신규게임 제작본부 체크리스트</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -322,6 +324,19 @@
     .preview-panel-body th {
       background: var(--surface-2);
       font-weight: 600;
+    }
+
+    .preview-panel-body table td {
+      vertical-align: middle;
+    }
+
+    .preview-panel-body label,
+    .preview-panel-body span[style] {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      font-size: 12px;
     }
 
     .preview-panel-body ol {
@@ -1639,6 +1654,7 @@
 <script>
 // v4 — section 1 editable project info
 const STORAGE_KEY = 'sb-checklist-state';
+const APP_BUILD = '2026-07-01-check-symbol-only';
 const PROJECT_STORAGE_KEY = 'sb-checklist-project';
 const PROJECT_STORAGE_VERSION_KEY = 'sb-checklist-project-version';
 const PROJECT_STORAGE_VERSION = 2;
@@ -1681,9 +1697,47 @@ function formatDateRange(start, end) {
 
 const OS_STATUS_DONE = '완료';
 const OS_STATUS_PENDING = '미완료';
+const OS_CHECK_DONE = '☑';
+const OS_CHECK_PENDING = '☐';
 
 function formatOsStatus(done) {
   return done ? OS_STATUS_DONE : OS_STATUS_PENDING;
+}
+
+function osExportLabel(os) {
+  return os === 'ios' ? 'iOS' : 'AOS';
+}
+
+function formatOsCheckSymbol(done) {
+  return done ? OS_CHECK_DONE : OS_CHECK_PENDING;
+}
+
+function formatOsCheckSymbolHtml(done) {
+  return done ? '&#9745;' : '&#9744;';
+}
+
+/** Confluence HTML 붙여넣기용 — 열 헤더에 OS 구분이 있으므로 체크 기호만 표시 */
+function formatOsCheckExportHtml(done) {
+  const sym = formatOsCheckSymbolHtml(done);
+  const color = done ? '#15803d' : '#6b7280';
+  return `<span style="color:${color};font-weight:600">${sym}</span>`;
+}
+
+/** 클립보드 plain text 폴백용 */
+function formatOsCheckExportPlain(done) {
+  return formatOsCheckSymbol(done);
+}
+
+function formatChecklistOsCellHtml(item, state, os) {
+  const targets = getChecklistOsTargets(item);
+  if (!targets.includes(os)) return '—';
+  return formatOsCheckExportHtml(!!state[getChecklistKey(item.id, os)]);
+}
+
+function formatChecklistOsCellPlain(item, state, os) {
+  const targets = getChecklistOsTargets(item);
+  if (!targets.includes(os)) return '—';
+  return formatOsCheckExportPlain(!!state[getChecklistKey(item.id, os)]);
 }
 
 let previewTimer = null;
@@ -1714,7 +1768,9 @@ function cloneTableForExport(selector) {
   clone.querySelectorAll('br').forEach(el => el.replaceWith(document.createTextNode(' ')));
   clone.querySelectorAll('.os-check-btn, .network-check, .event-os-check').forEach(btn => {
     const done = btn.classList.contains('checked') || btn.classList.contains('done') || btn.getAttribute('aria-pressed') === 'true';
-    btn.replaceWith(document.createTextNode(formatOsStatus(done)));
+    const span = document.createElement('span');
+    span.innerHTML = formatOsCheckExportHtml(done);
+    btn.replaceWith(span);
   });
   clone.querySelectorAll('.campaign-field').forEach(inp => {
     inp.replaceWith(document.createTextNode(inp.value.trim()));
@@ -1733,6 +1789,25 @@ function cloneTableForExport(selector) {
   return clone.outerHTML;
 }
 
+function buildEventExportTableHtml(state) {
+  const rows = eventRows.map(row => {
+    const aosDone = !!state[getEventCheckKey(row.id, 'aos')];
+    const iosDone = !!state[getEventCheckKey(row.id, 'ios')];
+    return `<tr>
+      <td>${escHtml(resolveEventDisplayName(row))}</td>
+      <td>${escHtml(resolvePartnerEvent(row.eventKey))}</td>
+      <td>${escHtml(resolveIncludeText(row.eventKey))}</td>
+      <td>${formatOsCheckExportHtml(aosDone)}</td>
+      <td>${formatOsCheckExportHtml(iosDone)}</td>
+    </tr>`;
+  }).join('');
+
+  return `<table border="1" cellpadding="6" cellspacing="0">
+  <thead><tr><th>이벤트</th><th>파트너 이벤트</th><th>포함</th><th>AOS</th><th>iOS</th></tr></thead>
+  <tbody>${rows}</tbody>
+</table>`;
+}
+
 function buildConfluenceHtml() {
   collectProjectFromForm();
   collectCampaignFromForm();
@@ -1742,27 +1817,20 @@ function buildConfluenceHtml() {
   const now = new Date().toLocaleString('ko-KR');
 
   let checklistRows = checklistItems.map(item => {
-    const osState = formatChecklistOsState(item, state);
-    const note = item.note ? escHtml(item.note) : '';
-    const sub = item.subItems?.length
-      ? '<ul>' + item.subItems.map(s => `<li>${escHtml(s)}</li>`).join('') + '</ul>'
-      : '';
     return `<tr>
-      <td>${escHtml(osState)}</td>
-      <td><strong>${escHtml(item.title)}</strong>${sub}</td>
-      <td>${escHtml(item.media)}</td>
-      <td>${escHtml(item.owner)}</td>
-      <td>${note}</td>
+      <td>${escHtml(item.title)}</td>
+      <td>${formatChecklistOsCellHtml(item, state, 'aos')}</td>
+      <td>${formatChecklistOsCellHtml(item, state, 'ios')}</td>
     </tr>`;
   }).join('');
 
   let networkRows = networks.map(net => {
-    const aos = formatOsStatus(state[`net-${net.id}-aos`]);
-    const ios = formatOsStatus(state[`net-${net.id}-ios`]);
+    const aosDone = !!state[`net-${net.id}-aos`];
+    const iosDone = !!state[`net-${net.id}-ios`];
     return `<tr>
       <td><a href="${escAttr(net.url)}">${escHtml(net.name)}</a></td>
-      <td>${aos}</td>
-      <td>${ios}</td>
+      <td>${formatOsCheckExportHtml(aosDone)}</td>
+      <td>${formatOsCheckExportHtml(iosDone)}</td>
     </tr>`;
   }).join('');
 
@@ -1772,8 +1840,7 @@ function buildConfluenceHtml() {
     return `<tr><td>${escHtml(label)}</td><td>${escHtml(value)}</td></tr>`;
   }).join('');
 
-  return `<!DOCTYPE html><html><body>
-<h1>마케팅팀 신규게임 제작본부 체크리스트</h1>
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>
 <p><em>작성일: ${escHtml(now)}</em></p>
 
 <h2>1. 기본 정보</h2>
@@ -1813,8 +1880,9 @@ function buildConfluenceHtml() {
 ${cloneTableForExport('.campaign-table')}
 
 <h2>3. 체크리스트</h2>
+<p><em>☑ 완료 · ☐ 미완료</em></p>
 <table border="1" cellpadding="6" cellspacing="0">
-  <thead><tr><th>OS 상태</th><th>항목</th><th>매체</th><th>주체</th><th>비고</th></tr></thead>
+  <thead><tr><th>항목</th><th>AOS</th><th>iOS</th></tr></thead>
   <tbody>${checklistRows}</tbody>
 </table>
 
@@ -1826,6 +1894,7 @@ ${cloneTableForExport('.campaign-table')}
   <tr><td>iOS</td><td>${escHtml(projectData.storeUrlIos) || '—'}</td></tr>
 </table>
 <h3>네트워크별 Store URL 업데이트 체크</h3>
+<p><em>☑ 완료 · ☐ 미완료</em></p>
 <table border="1" cellpadding="6" cellspacing="0">
   <thead><tr><th>Network</th><th>AOS</th><th>iOS</th></tr></thead>
   <tbody>${networkRows}</tbody>
@@ -1838,7 +1907,8 @@ ${cloneTableForExport('.campaign-table')}
   ${mappingRules}
 </table>
 <h3>이벤트별 포스트백 설정</h3>
-${cloneTableForExport('#section-5 table')}
+<p><em>☑ 완료 · ☐ 미완료</em></p>
+${buildEventExportTableHtml(state)}
 </body></html>`;
 }
 
@@ -1851,7 +1921,6 @@ function buildConfluencePlain() {
   const now = new Date().toLocaleString('ko-KR');
   const lines = [];
 
-  lines.push('마케팅팀 신규게임 제작본부 체크리스트');
   lines.push(`작성일: ${now}`);
   lines.push('');
   lines.push('h1. 1. 기본 정보');
@@ -1879,10 +1948,12 @@ function buildConfluencePlain() {
   lines.push('캠페인 설정은 앱러빈 기본 설정값을 따르며, 예외 시 하단 도표 내 변경 사항 반영');
   lines.push('');
   lines.push('h1. 3. 체크리스트');
+  lines.push('☑ 완료 · ☐ 미완료');
+  lines.push('||항목||AOS||iOS||');
   checklistItems.forEach(item => {
-    const osState = formatChecklistOsState(item, state);
-    lines.push(`${osState} *${item.title}* — ${item.media} / ${item.owner}`);
-    if (item.note) lines.push(`    ${item.note}`);
+    const aos = formatChecklistOsCellPlain(item, state, 'aos');
+    const ios = formatChecklistOsCellPlain(item, state, 'ios');
+    lines.push(`|${item.title}|${aos}|${ios}|`);
   });
   lines.push('');
   lines.push('h1. 4. IAA 네트워크');
@@ -1891,17 +1962,20 @@ function buildConfluencePlain() {
   lines.push(`|iOS|${projectData.storeUrlIos || '—'}|`);
   lines.push('');
   networks.forEach(net => {
-    const aos = formatOsStatus(state[`net-${net.id}-aos`]);
-    const ios = formatOsStatus(state[`net-${net.id}-ios`]);
-    lines.push(`| [${net.name}|${net.url}] | AOS: ${aos} | iOS: ${ios} |`);
+    const aos = formatOsCheckExportPlain(!!state[`net-${net.id}-aos`]);
+    const ios = formatOsCheckExportPlain(!!state[`net-${net.id}-ios`]);
+    lines.push(`| [${net.name}|${net.url}] | ${aos} | ${ios} |`);
   });
   lines.push('');
   lines.push('h1. 5. 앱스플라이어 이벤트 매핑');
+  lines.push('h2. 이벤트별 포스트백 설정');
+  lines.push('☑ 완료 · ☐ 미완료');
+  lines.push('||이벤트||파트너 이벤트||포함||AOS||iOS||');
   syncEventRowsFromDom();
   eventRows.forEach(row => {
-    const aos = formatOsStatus(state[getEventCheckKey(row.id, 'aos')]);
-    const ios = formatOsStatus(state[getEventCheckKey(row.id, 'ios')]);
-    lines.push(`| ${resolveEventDisplayName(row)} | ${resolvePartnerEvent(row.eventKey)} | ${resolveIncludeText(row.eventKey)} | AOS: ${aos} | iOS: ${ios} |`);
+    const aos = formatOsCheckExportPlain(!!state[getEventCheckKey(row.id, 'aos')]);
+    const ios = formatOsCheckExportPlain(!!state[getEventCheckKey(row.id, 'ios')]);
+    lines.push(`| ${resolveEventDisplayName(row)} | ${resolvePartnerEvent(row.eventKey)} | ${resolveIncludeText(row.eventKey)} | ${aos} | ${ios} |`);
   });
 
   return lines.join('\n');
@@ -1927,8 +2001,8 @@ async function copyForConfluence() {
     if (navigator.clipboard?.write && window.ClipboardItem) {
       await navigator.clipboard.write([
         new ClipboardItem({
-          'text/html': new Blob([html], { type: 'text/html' }),
-          'text/plain': new Blob([plain], { type: 'text/plain' })
+          'text/html': new Blob([html], { type: 'text/html;charset=utf-8' }),
+          'text/plain': new Blob([plain], { type: 'text/plain;charset=utf-8' })
         })
       ]);
     } else if (navigator.clipboard?.writeText) {
@@ -2325,7 +2399,7 @@ function updateFooter() {
   if (footer) {
     const title = projectData.title || '—';
     const group = projectData.group || '—';
-    footer.textContent = `신규 게임 사전 보고 (액션플랜 및 체크리스트) · ${title} · ${group}`;
+    footer.textContent = `신규 게임 사전 보고 (액션플랜 및 체크리스트) · ${title} · ${group} · v${APP_BUILD}`;
   }
 }
 
@@ -3150,6 +3224,7 @@ function handleOsCheck(e) {
   }
 
   updateProgress();
+  schedulePreviewUpdate();
 }
 
 function bulkChecklistOs(targetOs, checked, filter) {
@@ -3168,6 +3243,7 @@ function bulkChecklistOs(targetOs, checked, filter) {
 
   saveState(state);
   renderChecklist(filter);
+  schedulePreviewUpdate();
 }
 
 function renderNetworkGrid() {
@@ -3249,6 +3325,7 @@ function resetAll() {
     renderNetworkGrid();
     renderEventTable();
     updateProgress();
+    updateConfluencePreview();
   }
 }
 
