@@ -1,0 +1,3296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>마케팅팀 신규게임 제작본부 체크리스트</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-green: #7db83a;
+      --brand-green-dark: #5f9428;
+      --brand-green-light: #f0f7e6;
+      --brand-charcoal: #2f2f2e;
+      --brand-charcoal-light: #4a4a48;
+      --bg: #f3f4f1;
+      --surface: #ffffff;
+      --surface-2: #f9faf7;
+      --border: #e3e5de;
+      --border-strong: #cdd0c6;
+      --text: #2f2f2e;
+      --text-muted: #5f605c;
+      --text-light: #8a8b86;
+      --primary: #7db83a;
+      --primary-dark: #5f9428;
+      --primary-light: #f0f7e6;
+      --accent: #94c94f;
+      --success: #3d8b2f;
+      --success-bg: #e8f3df;
+      --success-border: #b8d9a4;
+      --warning: #b8860b;
+      --warning-bg: #fdf8eb;
+      --danger: #b42318;
+      --danger-bg: #fdeeed;
+      --purple: #5c6b2f;
+      --purple-bg: #f2f5e8;
+      --shadow-sm: 0 1px 2px rgba(47, 47, 46, 0.05);
+      --shadow: 0 4px 10px -2px rgba(47, 47, 46, 0.07);
+      --shadow-lg: 0 12px 28px -8px rgba(47, 47, 46, 0.12);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --nav-width: 248px;
+      --preview-width: 380px;
+      --header-height: 60px;
+      --table-row-min: 44px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 24px); }
+
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .header-logo-img {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .header-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .header-progress {
+      flex: 1;
+      max-width: 320px;
+      margin-left: auto;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--brand-green), var(--accent));
+      border-radius: 99px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover { background: var(--surface-2); border-color: var(--border-strong); }
+    .btn-primary { background: var(--primary); color: var(--brand-charcoal); border-color: var(--primary); font-weight: 600; }
+    .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+    .header .btn-primary.copied { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
+
+    /* Layout */
+    .layout {
+      display: flex;
+      padding-top: var(--header-height);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: var(--header-height);
+      left: 0;
+      width: var(--nav-width);
+      height: calc(100vh - var(--header-height));
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 20px 12px;
+      overflow-y: auto;
+      z-index: 50;
+    }
+
+    .nav-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--text-light);
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.15s ease;
+      margin-bottom: 2px;
+    }
+
+    .nav-link:hover { background: var(--surface-2); color: var(--text); }
+    .nav-link.active { background: var(--primary-light); color: var(--brand-green-dark); font-weight: 600; }
+    .nav-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: var(--surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .nav-link.active .nav-num { background: var(--brand-green); color: var(--brand-charcoal); }
+
+    .main {
+      margin-left: var(--nav-width);
+      margin-right: var(--preview-width);
+      flex: 1;
+      min-width: 0;
+      padding: 28px 32px 72px;
+      max-width: none;
+    }
+
+    /* Confluence preview panel */
+    .preview-panel {
+      position: fixed;
+      top: var(--header-height);
+      right: 0;
+      width: var(--preview-width);
+      height: calc(100vh - var(--header-height));
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 40;
+    }
+
+    .preview-panel-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+      flex-shrink: 0;
+    }
+
+    .preview-panel-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .preview-panel-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .preview-panel-body {
+      flex: 1;
+      overflow: auto;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text);
+      background: #fcfcfb;
+    }
+
+    .preview-panel-body h1 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      line-height: 1.4;
+    }
+
+    .preview-panel-body h2 {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 20px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .preview-panel-body h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin: 14px 0 6px;
+      color: var(--text-muted);
+    }
+
+    .preview-panel-body p,
+    .preview-panel-body li {
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .preview-panel-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px;
+      font-size: 12px;
+    }
+
+    .preview-panel-body th,
+    .preview-panel-body td {
+      border: 1px solid var(--border);
+      padding: 6px 8px;
+      vertical-align: top;
+      word-break: break-word;
+    }
+
+    .preview-panel-body th {
+      background: var(--surface-2);
+      font-weight: 600;
+    }
+
+    .preview-panel-body ol {
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+
+    .preview-panel-body em {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 40px;
+      scroll-margin-top: calc(var(--header-height) + 24px);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-num {
+      width: 32px;
+      height: 32px;
+      background: var(--brand-green);
+      color: var(--brand-charcoal);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .card-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+      font-weight: 600;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-body { padding: 18px; }
+
+    /* Alert boxes */
+    .alert {
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .alert-info { background: var(--primary-light); border: 1px solid #c5de8a; color: #4a5e28; }
+    .alert-warning { background: var(--warning-bg); border: 1px solid #fde68a; color: #92400e; }
+    .alert-danger { background: var(--danger-bg); border: 1px solid #fecaca; color: #991b1b; }
+
+    .alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* Info grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .info-grid-3x3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .info-grid-duo {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .info-item {
+      padding: 14px 16px;
+      background: var(--surface-2);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .info-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .info-value {
+      font-size: 15px;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .info-value a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .info-value a:hover { text-decoration: underline; }
+
+    /* Editable fields */
+    .field-input, .field-select, .field-textarea {
+      width: 100%;
+      padding: 9px 11px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      background: var(--surface);
+      color: var(--text);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .field-input:focus, .field-select:focus, .field-textarea:focus {
+      outline: none;
+      border-color: var(--brand-green);
+      box-shadow: 0 0 0 3px rgba(140, 198, 63, 0.18);
+    }
+
+    .field-input.readonly { background: var(--surface-2); color: var(--text-muted); cursor: default; }
+    .field-textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+    .field-textarea-compact { min-height: 56px; }
+
+    .info-row-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      grid-column: 1 / -1;
+    }
+
+    .date-range {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .date-range input[type="date"] { flex: 1; min-width: 120px; }
+    .date-sep { color: var(--text-light); font-size: 13px; flex-shrink: 0; }
+
+    /* Section 1 layout — slack copy panel on right */
+    .section-1-wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .section-1-content { flex: 1; min-width: 0; }
+
+    .slack-copy-panel {
+      width: 300px;
+      flex-shrink: 0;
+      position: sticky;
+      top: calc(var(--header-height) + 20px);
+    }
+
+    .slack-copy-card {
+      background: var(--warning-bg);
+      border: 1px solid #fde68a;
+      border-radius: var(--radius);
+      padding: 18px;
+      color: #92400e;
+    }
+
+    .slack-copy-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .slack-copy-sub {
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .slack-copy-card p,
+    .slack-copy-list {
+      font-size: 12px;
+      line-height: 1.8;
+      margin-bottom: 14px;
+      color: #78350f;
+    }
+
+    .slack-copy-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 14px;
+    }
+
+    .btn-copy {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--brand-green);
+      color: var(--brand-charcoal);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-copy:hover { background: var(--accent); }
+    .btn-copy.copied { background: var(--success-bg); color: #065f46; }
+
+    .copy-toast {
+      font-size: 11px;
+      text-align: center;
+      margin-top: 8px;
+      color: #065f46;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .copy-toast.show { opacity: 1; }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead { background: var(--surface-2); }
+
+    th {
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 13px;
+      letter-spacing: 0;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+      min-height: var(--table-row-min);
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+
+    .campaign-table {
+      table-layout: fixed;
+      width: 100%;
+    }
+
+    .campaign-table th { text-align: center; padding: 8px 10px; }
+    .campaign-table td { text-align: center; vertical-align: middle; padding: 8px 10px; }
+    .campaign-table th:first-child,
+    .campaign-table td.campaign-type-cell { text-align: center; }
+
+    .campaign-table .col-type { width: 108px; }
+    .campaign-table .col-country { width: 100px; }
+    .campaign-table .col-os { width: 64px; }
+    .campaign-table .col-campaign { width: 96px; }
+    .campaign-table .col-bidding { width: 56px; }
+    .campaign-table .col-goal { width: 56px; }
+    .campaign-table .col-budget { width: 64px; }
+    .campaign-table .col-delete { width: 36px; }
+
+    .campaign-table .country-cell {
+      white-space: nowrap;
+      line-height: 1.35;
+    }
+
+    .campaign-table .country-note {
+      display: block;
+      font-size: 11px;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+
+    .campaign-table .os-cell {
+      text-align: center;
+      vertical-align: middle;
+      width: 72px;
+    }
+
+    .campaign-table .campaign-type {
+      white-space: nowrap;
+    }
+
+    .campaign-table .badge {
+      padding: 2px 7px;
+      font-size: 10px;
+    }
+
+    .campaign-table small {
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .campaign-field {
+      width: 100%;
+      min-width: 0;
+      padding: 4px 6px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+      background: var(--surface);
+      color: var(--text);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .campaign-field:focus {
+      outline: none;
+      border-color: var(--brand-green);
+      box-shadow: 0 0 0 2px rgba(140, 198, 63, 0.18);
+    }
+
+    .campaign-table td.editable-cell {
+      padding: 6px 6px;
+    }
+
+    .campaign-table td.col-delete {
+      padding: 6px 4px;
+    }
+
+    .btn-row-delete {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      background: #fff;
+      color: #dc2626;
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .btn-row-delete:hover {
+      background: #fef2f2;
+      border-color: #f87171;
+    }
+
+    .campaign-add-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+
+    .campaign-add-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-right: 4px;
+    }
+
+    .btn-campaign-add {
+      padding: 6px 12px;
+      border: 1px dashed var(--brand-green);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--brand-charcoal);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .btn-campaign-add:hover {
+      background: var(--primary-light);
+      border-style: solid;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-auto { background: var(--success-bg); color: #065f46; }
+    .badge-manual { background: var(--warning-bg); color: #92400e; }
+    .badge-partial { background: var(--purple-bg); color: #5b21b6; }
+    .badge-ios { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+    .badge-aos { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .badge-both { background: var(--primary-light); color: var(--brand-charcoal); }
+
+    /* Checklist */
+    .checklist-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .filter-btn {
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--text-muted);
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--brand-green);
+      color: var(--brand-charcoal);
+      border-color: var(--brand-green);
+      font-weight: 600;
+    }
+
+    .checklist-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+      align-items: stretch;
+      min-height: 72px;
+    }
+
+    .checklist-item:last-child { border-bottom: none; }
+    .checklist-item:hover { background: var(--surface-2); }
+    .checklist-item.checked { background: var(--primary-light); }
+    .checklist-item.checked .item-title { text-decoration: line-through; color: var(--text-muted); }
+    .checklist-item.checked .network-name-link {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+    .checklist-item.partial { background: #fffbeb; }
+
+    .checklist-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+
+    .checklist-os-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .checklist-os-summary span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 99px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .checklist-os-summary .summary-aos { color: #15803d; border-color: #86efac; }
+    .checklist-os-summary .summary-ios { color: #1d4ed8; border-color: #93c5fd; }
+
+    .checklist-bulk-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn-os-bulk {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .btn-os-bulk:hover { border-color: var(--brand-green); background: var(--primary-light); }
+    .btn-os-bulk.aos { border-color: #86efac; color: #15803d; }
+    .btn-os-bulk.ios { border-color: #93c5fd; color: #1d4ed8; }
+    .btn-os-bulk.clear { color: var(--text-muted); }
+
+    .checklist-os-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .checklist-os-header-label {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0;
+    }
+
+    .os-check-panel {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .os-check-panel.single { min-width: 80px; }
+
+    .os-check-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 76px;
+      min-height: 48px;
+      padding: 6px 8px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .os-check-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+
+    .os-check-btn.aos {
+      border-color: #86efac;
+      color: #15803d;
+    }
+
+    .os-check-btn.ios {
+      border-color: #93c5fd;
+      color: #1d4ed8;
+    }
+
+    .os-check-btn.checked.aos {
+      background: #dcfce7;
+      border-color: #22c55e;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.15);
+    }
+
+    .os-check-btn.checked.ios {
+      background: #dbeafe;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+    }
+
+    .os-check-btn .os-check-name {
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .os-check-btn .os-check-status {
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 4px;
+      opacity: 0.8;
+    }
+
+    .os-check-btn.checked .os-check-status { opacity: 1; }
+
+    .os-check-header-slot {
+      width: 76px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .os-check-header-slot.aos { color: #15803d; }
+    .os-check-header-slot.ios { color: #1d4ed8; }
+
+    .item-content { flex: 1; min-width: 0; }
+
+    .item-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .item-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .item-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .item-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .item-note strong { color: var(--text); }
+
+    .sub-item {
+      margin-top: 8px;
+      padding: 10px 14px;
+      background: var(--surface-2);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--primary);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Network list — checklist와 동일한 OS 체크 UI */
+    .network-guide-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .network-list .checklist-item {
+      align-items: center;
+    }
+
+    .network-list .item-content {
+      display: flex;
+      align-items: center;
+      min-height: 48px;
+    }
+
+    .network-name-link {
+      color: var(--brand-charcoal);
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .network-name-link:hover {
+      color: var(--brand-green-dark);
+      text-decoration: underline;
+    }
+
+    .network-name-link::after {
+      content: ' ↗';
+      font-size: 11px;
+      opacity: 0.5;
+    }
+
+    /* Event mapping */
+    #section-5 .info-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #section-5 .info-label {
+      font-size: 13px;
+    }
+
+    .event-mapping-table {
+      table-layout: fixed;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    .event-mapping-table th,
+    .event-mapping-table td {
+      padding: 10px 12px;
+      word-break: break-word;
+      vertical-align: middle;
+    }
+
+    .event-mapping-table col.col-event { width: 220px; }
+    .event-mapping-table col.col-partner { width: 108px; }
+    .event-mapping-table col.col-os-panel { width: 172px; }
+    .event-mapping-table col.col-actions { width: 40px; }
+
+    .event-mapping-table .col-os-panel {
+      text-align: center;
+      padding: 8px 10px;
+    }
+
+    .event-mapping-table .os-check-panel {
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .event-field-select,
+    .event-field-custom {
+      width: 100%;
+      min-width: 0;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 14px;
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .event-field-custom {
+      font-size: 14px;
+    }
+
+    .event-field-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .event-field-wrap .event-field-custom {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .event-field-mode-toggle {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface-2);
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 1;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .event-field-mode-toggle:hover {
+      border-color: var(--brand-green);
+      color: var(--brand-charcoal);
+      background: var(--primary-light);
+    }
+
+    .event-field-select:focus,
+    .event-field-custom:focus {
+      outline: none;
+      border-color: var(--brand-green);
+      box-shadow: 0 0 0 2px rgba(140, 198, 63, 0.18);
+    }
+
+    .event-derived {
+      font-weight: 500;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .event-mapping-table .partner-cell {
+      white-space: nowrap;
+    }
+
+    .event-derived.include-purchase {
+      color: #dc2626;
+      font-weight: 700;
+    }
+
+    .event-table-actions {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+
+    .btn-event-add {
+      padding: 8px 14px;
+      border: 1px dashed var(--brand-green);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--brand-charcoal);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-event-add:hover {
+      background: var(--primary-light);
+      border-style: solid;
+    }
+
+    .event-mapping-table th.col-actions,
+    .event-mapping-table td.col-actions {
+      text-align: center;
+      padding: 6px 4px;
+    }
+
+    .event-os-th-panel {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Process steps */
+    .process-steps {
+      counter-reset: step;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .process-step {
+      display: flex;
+      gap: 14px;
+      padding: 14px 16px;
+      background: var(--surface-2);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .process-step::before {
+      counter-increment: step;
+      content: counter(step);
+      width: 28px;
+      height: 28px;
+      background: var(--brand-green);
+      color: var(--brand-charcoal);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .process-step .placeholder,
+    .process-step .process-ref-link {
+      background: #fef08a;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--brand-charcoal);
+      text-decoration: none;
+    }
+
+    .process-step .process-ref-link:hover {
+      background: #fde047;
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-light);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+
+    /* Print */
+    @media print {
+      .header, .sidebar, .header-actions, .checklist-filters, .slack-copy-panel, .preview-panel { display: none !important; }
+      .section-1-wrap { display: block; }
+      .main { margin-left: 0; padding: 20px; max-width: 100%; }
+      .layout { padding-top: 0; }
+      .checklist-toolbar { display: none !important; }
+      .checklist-os-header { display: none !important; }
+      .os-check-panel { display: none !important; }
+    }
+
+    @media (max-width: 1280px) {
+      :root { --preview-width: 320px; }
+    }
+
+    @media (max-width: 1100px) {
+      .preview-panel { display: none; }
+      .main { margin-right: 0; }
+    }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px 16px 60px; }
+      .header-progress { display: none; }
+      .section-1-wrap { flex-direction: column; }
+      .slack-copy-panel { width: 100%; position: static; }
+      .info-row-duo { grid-template-columns: 1fr; }
+      .info-grid-3x3 { grid-template-columns: 1fr; }
+      .info-grid-duo { grid-template-columns: 1fr; }
+      #section-5 .info-grid { grid-template-columns: 1fr; }
+      .event-mapping-table col.col-event { width: 160px; }
+      .event-mapping-table col.col-partner { width: 88px; }
+      .event-mapping-table col.col-os-panel { width: 148px; }
+      .checklist-item { flex-direction: column; gap: 12px; }
+      .os-check-panel { width: 100%; justify-content: flex-end; }
+      .checklist-os-header { display: none; }
+      .checklist-toolbar { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-brand">
+    <img src="assets/doubleu-logo.png" alt="DOUBLEU GAMES" class="header-logo-img">
+    <div>
+      <div class="header-title">마케팅팀 신규게임 제작본부 체크리스트</div>
+      <div class="header-subtitle">액션플랜 및 체크리스트</div>
+    </div>
+  </div>
+  <div class="header-progress">
+    <div class="progress-label">
+      <span>체크리스트 진행률</span>
+      <span id="progressText">0 / 0</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn" onclick="resetAll()">초기화</button>
+    <button class="btn btn-primary" id="btnCopyConfluence" onclick="copyForConfluence()">📋 복사</button>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="nav-label">목차</div>
+    <a href="#section-1" class="nav-link active"><span class="nav-num">1</span> 기본 정보</a>
+    <a href="#section-2" class="nav-link"><span class="nav-num">2</span> 테스트 개요</a>
+    <a href="#section-3" class="nav-link"><span class="nav-num">3</span> 체크리스트</a>
+    <a href="#section-4" class="nav-link"><span class="nav-num">4</span> IAA 네트워크</a>
+    <a href="#section-5" class="nav-link"><span class="nav-num">5</span> 이벤트 매핑</a>
+  </nav>
+
+  <main class="main">
+    <div class="alert alert-info" id="preparation-notice">
+      <span class="alert-icon">ℹ️</span>
+      <div>
+        <strong>준비 사항</strong><br>
+        신규 게임 마케팅 라이브 <strong>최소 3일 전</strong> 작성하여 전달<br>
+        체크리스트는 진행 및 확인한 사항까지 체크하여 공유<br>
+        캠페인 설정은 앱러빈 기본 설정값을 따르며, 예외 시 하단 도표 내 변경 사항 반영
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <section class="section" id="section-1">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2 class="section-title">기본 정보</h2>
+      </div>
+
+      <div class="section-1-wrap">
+        <div class="section-1-content">
+
+      <div class="card">
+        <div class="card-header">📋 프로젝트 정보</div>
+        <div class="card-body">
+          <div class="info-grid info-grid-3x3">
+            <div class="info-item">
+              <label class="info-label" for="field-title">타이틀</label>
+              <input type="text" class="field-input" id="field-title" placeholder="게임 타이틀 입력">
+            </div>
+            <div class="info-item">
+              <label class="info-label" for="field-group">그룹</label>
+              <select class="field-select" id="field-group">
+                <option value="Group 1">Group 1</option>
+                <option value="Group 2">Group 2</option>
+                <option value="Group 3">Group 3</option>
+              </select>
+            </div>
+            <div class="info-item">
+              <label class="info-label" for="field-pm">담당 PM</label>
+              <input type="text" class="field-input readonly" id="field-pm" readonly tabindex="-1">
+            </div>
+            <div class="info-item">
+              <label class="info-label" for="field-gameCode">게임 코드</label>
+              <input type="text" class="field-input" id="field-gameCode" placeholder="게임 코드 입력" value="" autocomplete="off">
+            </div>
+            <div class="info-item">
+              <label class="info-label" for="field-packageName">패키지 네임</label>
+              <input type="text" class="field-input" id="field-packageName" placeholder="패키지 네임 입력" value="" autocomplete="off">
+            </div>
+            <div class="info-item">
+              <label class="info-label" for="field-appStoreId">앱스토어 ID</label>
+              <input type="text" class="field-input" id="field-appStoreId" placeholder="앱스토어 ID 입력" value="" autocomplete="off">
+            </div>
+            <div class="info-item">
+              <label class="info-label" for="field-marketer">담당 마케터</label>
+              <select class="field-select" id="field-marketer">
+                <option value="이재하">이재하</option>
+                <option value="오유진">오유진</option>
+                <option value="석준현">석준현</option>
+              </select>
+            </div>
+            <div class="info-item">
+              <label class="info-label" for="field-bm">BM</label>
+              <input type="text" class="field-input" id="field-bm" placeholder="예: IAA + IAP 혼합">
+            </div>
+            <div class="info-item">
+              <label class="info-label" for="field-notes">특이사항 (중점 논의 필요사항)</label>
+              <textarea class="field-textarea field-textarea-compact" id="field-notes" placeholder="특이사항을 입력하세요"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🔗 링크 및 일정</div>
+        <div class="card-body">
+          <div class="info-grid">
+            <div class="info-item" style="grid-column: 1 / -1;">
+              <label class="info-label" for="field-dropbox">소재 드롭박스 링크</label>
+              <input type="url" class="field-input" id="field-dropbox" placeholder="https://">
+            </div>
+            <div class="info-item" style="grid-column: 1 / -1;">
+              <label class="info-label">테크니컬 캠페인 테스트 기간</label>
+              <div class="date-range">
+                <input type="date" class="field-input" id="field-technical-start" aria-label="테크니컬 시작일">
+                <span class="date-sep">~</span>
+                <input type="date" class="field-input" id="field-technical-end" aria-label="테크니컬 종료일">
+              </div>
+            </div>
+            <div class="info-item" style="grid-column: 1 / -1;">
+              <label class="info-label">1차 마케팅 캠페인 테스트 기간</label>
+              <div class="date-range">
+                <input type="date" class="field-input" id="field-marketing-start" aria-label="1차 마케팅 시작일">
+                <span class="date-sep">~</span>
+                <input type="date" class="field-input" id="field-marketing-end" aria-label="1차 마케팅 종료일">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        </div><!-- /section-1-content -->
+
+        <aside class="slack-copy-panel">
+          <div class="slack-copy-card">
+            <h3>신규 게임 마케팅 정보 요청 시 PM에게 슬랙으로 아래 정보 전달 요청<br><span class="slack-copy-sub">→ 내용 기입 필요 없으며 전달 목적</span></h3>
+            <ul class="slack-copy-list" id="slackCopyText">
+              <li>프로젝트명</li>
+              <li>레퍼런스 게임(벤치마크 앱)</li>
+              <li>목표 출시일</li>
+              <li>패키지 네임</li>
+              <li>앱스토어 ID</li>
+              <li>BM 구조(상세)</li>
+              <li>출시 예정 OS</li>
+              <li>광고 소재 전달 시점</li>
+              <li>소재 드롭박스 링크</li>
+              <li>구글 CMP 팝업 및 MAX Unity Plugin 8.5.0 업데이트 여부</li>
+            </ul>
+            <button type="button" class="btn-copy" id="btnSlackCopy" onclick="copySlackText()">📋 클릭하여 복사</button>
+            <div class="copy-toast" id="copyToast">복사되었습니다!</div>
+          </div>
+        </aside>
+      </div><!-- /section-1-wrap -->
+    </section>
+
+    <!-- Section 2 -->
+    <section class="section" id="section-2">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2 class="section-title">테스트 개요</h2>
+      </div>
+
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ️</span>
+        <div>캠페인 설정은 <strong>앱러빈 기본 설정값</strong>을 따르며, 예외 시 하단 도표 내 변경 사항 반영</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📊 마케팅팀 앱러빈 기본 설정값</div>
+        <div class="card-body" style="padding: 0;">
+          <div class="table-wrap">
+            <table class="campaign-table">
+              <colgroup>
+                <col class="col-type">
+                <col class="col-country">
+                <col class="col-os">
+                <col class="col-campaign">
+                <col class="col-bidding">
+                <col class="col-goal">
+                <col class="col-budget">
+                <col class="col-delete">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>구분</th>
+                  <th>국가</th>
+                  <th>OS</th>
+                  <th>캠페인</th>
+                  <th>비딩</th>
+                  <th>목표 (%)</th>
+                  <th>예산 ($)</th>
+                  <th class="col-delete" aria-label="행 삭제"></th>
+                </tr>
+              </thead>
+              <tbody id="campaignTableBody"></tbody>
+            </table>
+          </div>
+          <div class="campaign-add-panel" id="campaignAddPanel" hidden></div>
+        </div>
+      </div>
+
+      <div class="card" id="automation-process">
+        <div class="card-header">⚙️ 성장혁신 자동화 프로세스</div>
+        <div class="card-body">
+          <div class="process-steps">
+            <div class="process-step">
+              <div>앱 정보 <a href="https://docs.google.com/spreadsheets/d/1AEKzhLpspl-D0i-L7y1WdCkBNq5xVQ7-WsMCguK_FLg/edit?pli=1&amp;gid=421941606#gid=421941606" target="_blank" rel="noopener noreferrer" class="process-ref-link">[게임 메타데이터]</a> 업데이트 후 슬랙으로 <strong>AppsFlyer 세팅 요청</strong> (AOS와 iOS 요청 시점 다를 수 있음)</div>
+            </div>
+            <div class="process-step">
+              <div><a href="https://docs.google.com/spreadsheets/d/1z0Zfc3pEwVsYt4_7Y4jssxnSEViiH9D1yYVIPDyLMlM/edit?gid=957062205#gid=957062205&amp;range=A1" target="_blank" rel="noopener noreferrer" class="process-ref-link">[캠페인 명]</a> 업데이트 후 슬랙으로 <strong>캠페인 명 전달</strong> (<a href="http://172.16.54.81:8090/" target="_blank" rel="noopener noreferrer" class="process-ref-link">광고 네이밍 컨벤션 생성기</a>에는 별도 입력)</div>
+            </div>
+            <div class="process-step">
+              <div>소재 확인 시 <a href="https://docs.google.com/spreadsheets/d/1AEKzhLpspl-D0i-L7y1WdCkBNq5xVQ7-WsMCguK_FLg/edit?gid=1266768373#gid=1266768373&amp;range=A1:A2" target="_blank" rel="noopener noreferrer" class="process-ref-link">[Creative Set]</a> 업데이트 후 슬랙으로 <strong>AXON 세팅 요청</strong> (한 번에 테크니컬과 1차 마케팅 세팅)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="section" id="section-3">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2 class="section-title">체크리스트</h2>
+      </div>
+
+      <div class="checklist-filters">
+        <button class="filter-btn active" data-filter="all">전체</button>
+        <button class="filter-btn" data-filter="applovin">앱러빈</button>
+        <button class="filter-btn" data-filter="appsflyer">앱스플라이어</button>
+        <button class="filter-btn" data-filter="iaa">IAA</button>
+        <button class="filter-btn" data-filter="etc">기타</button>
+      </div>
+
+      <div class="card" id="checklistCard">
+        <div class="card-body" style="padding: 0;" id="checklistContainer"></div>
+      </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section class="section" id="section-4">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2 class="section-title">IAA 네트워크</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🏪 앱 스토어 URL 삽입</div>
+        <div class="card-body">
+          <div class="info-grid info-grid-duo">
+            <div class="info-item">
+              <label class="info-label" for="field-store-aos">AOS</label>
+              <input type="url" class="field-input" id="field-store-aos" placeholder="AOS URL 삽입" value="" autocomplete="off">
+            </div>
+            <div class="info-item">
+              <label class="info-label" for="field-store-ios">iOS</label>
+              <input type="url" class="field-input" id="field-store-ios" placeholder="iOS URL 삽입" value="" autocomplete="off">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">✅ 네트워크별 Store URL 업데이트 체크</div>
+        <div class="card-body" style="padding: 0;">
+          <p class="network-guide-text">네트워크 이름 클릭 시 퍼블리셔 페이지로 이동 · AOS / iOS Store URL 업데이트 후 완료 처리</p>
+          <div id="networkList" class="network-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5 -->
+    <section class="section" id="section-5">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2 class="section-title">앱스플라이어 이벤트 매핑</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📌 매핑 규칙</div>
+        <div class="card-body">
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">af_app_opened</div>
+              <div class="info-value">앱러빈 파트너 연동 → <strong>landing</strong>으로 지정</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">af_purchase</div>
+              <div class="info-value">앱러빈 파트너 연동 → <strong>checkout</strong>으로 지정</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">그 외 이벤트</div>
+              <div class="info-value">모든 이벤트 매핑 → <strong>postinstall</strong>로 설정</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">유저 유입 소스</div>
+              <div class="info-value">오가닉을 포함한 모든 미디어 소스</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📋 이벤트별 포스트백 설정</div>
+        <div class="card-body" style="padding: 0;">
+          <div class="table-wrap">
+            <table class="event-mapping-table">
+              <colgroup>
+                <col class="col-event">
+                <col class="col-partner">
+                <col class="col-include">
+                <col class="col-os-panel">
+                <col class="col-actions">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>이벤트</th>
+                  <th>파트너 이벤트</th>
+                  <th>포함</th>
+                  <th class="col-os-panel">
+                    <div class="event-os-th-panel">
+                      <span class="os-check-header-slot aos">AOS</span>
+                      <span class="os-check-header-slot ios">iOS</span>
+                    </div>
+                  </th>
+                  <th class="col-actions" aria-label="행 삭제"></th>
+                </tr>
+              </thead>
+              <tbody id="eventTableBody"></tbody>
+            </table>
+          </div>
+          <div class="event-table-actions">
+            <button type="button" class="btn-event-add" id="btnEventAdd">+ 행 추가</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      신규 게임 사전 보고 (액션플랜 및 체크리스트) · Square Blocks · Group 2
+    </footer>
+  </main>
+
+  <aside class="preview-panel" id="previewPanel" aria-label="Confluence 미리보기">
+    <div class="preview-panel-header">
+      <div class="preview-panel-title">미리보기</div>
+      <div class="preview-panel-sub">Confluence 붙여넣기 형식</div>
+    </div>
+    <div class="preview-panel-body" id="previewContent"></div>
+  </aside>
+</div>
+
+<script>
+// v4 — section 1 editable project info
+const STORAGE_KEY = 'sb-checklist-state';
+const PROJECT_STORAGE_KEY = 'sb-checklist-project';
+const PROJECT_STORAGE_VERSION_KEY = 'sb-checklist-project-version';
+const PROJECT_STORAGE_VERSION = 2;
+
+const GROUP_PM_MAP = {
+  'Group 1': '한규환',
+  'Group 2': '안준호',
+  'Group 3': '서가영'
+};
+
+const SLACK_COPY_ITEMS = [
+  '프로젝트명',
+  '레퍼런스 게임(벤치마크 앱)',
+  '목표 출시일',
+  '패키지 네임',
+  '앱스토어 ID',
+  'BM 구조(상세)',
+  '출시 예정 OS',
+  '광고 소재 전달 시점',
+  '소재 드롭박스 링크',
+  '구글 CMP 팝업 및 MAX Unity Plugin 8.5.0 업데이트 여부'
+];
+
+const SLACK_COPY_CLIPBOARD = SLACK_COPY_ITEMS.join('\n');
+
+const SLACK_COPY_PLAIN = `신규 게임 마케팅 정보 요청 시 PM에게 슬랙으로 아래 정보 전달 요청
+→ 내용 기입 필요 없으며 전달 목적
+
+${SLACK_COPY_CLIPBOARD}`;
+
+function escHtml(s) {
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function formatDateRange(start, end) {
+  if (!start && !end) return '—';
+  if (start && end) return `${start} ~ ${end}`;
+  return start || end;
+}
+
+const OS_STATUS_DONE = '완료';
+const OS_STATUS_PENDING = '미완료';
+
+function formatOsStatus(done) {
+  return done ? OS_STATUS_DONE : OS_STATUS_PENDING;
+}
+
+let previewTimer = null;
+
+function schedulePreviewUpdate() {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(updateConfluencePreview, 280);
+}
+
+function updateConfluencePreview() {
+  const el = document.getElementById('previewContent');
+  if (!el) return;
+  try {
+    const html = buildConfluenceHtml();
+    const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+    el.innerHTML = bodyMatch ? bodyMatch[1] : html;
+  } catch {
+    el.textContent = '미리보기를 생성할 수 없습니다.';
+  }
+}
+
+function cloneTableForExport(selector) {
+  const table = document.querySelector(selector);
+  if (!table) return '';
+  const clone = table.cloneNode(true);
+  clone.querySelectorAll('.badge').forEach(el => el.replaceWith(document.createTextNode(el.textContent.trim())));
+  clone.querySelectorAll('small').forEach(el => el.replaceWith(document.createTextNode(' ' + el.textContent.trim())));
+  clone.querySelectorAll('br').forEach(el => el.replaceWith(document.createTextNode(' ')));
+  clone.querySelectorAll('.os-check-btn, .network-check, .event-os-check').forEach(btn => {
+    const done = btn.classList.contains('checked') || btn.classList.contains('done') || btn.getAttribute('aria-pressed') === 'true';
+    btn.replaceWith(document.createTextNode(formatOsStatus(done)));
+  });
+  clone.querySelectorAll('.campaign-field').forEach(inp => {
+    inp.replaceWith(document.createTextNode(inp.value.trim()));
+  });
+  clone.querySelectorAll('.event-field-custom').forEach(inp => {
+    inp.replaceWith(document.createTextNode(inp.value.trim() || '직접 입력'));
+  });
+  clone.querySelectorAll('.event-field-select').forEach(sel => {
+    const text = sel.options[sel.selectedIndex]?.textContent.trim() || sel.value;
+    sel.replaceWith(document.createTextNode(text));
+  });
+  clone.querySelectorAll('.event-field-mode-toggle').forEach(btn => btn.remove());
+  clone.querySelectorAll('td.col-actions, th.col-actions').forEach(el => el.remove());
+  clone.querySelectorAll('.btn-row-delete, th.col-delete, td.col-delete').forEach(el => el.remove());
+  clone.querySelectorAll('strong').forEach(el => { el.outerHTML = el.innerHTML; });
+  return clone.outerHTML;
+}
+
+function buildConfluenceHtml() {
+  collectProjectFromForm();
+  collectCampaignFromForm();
+  syncEventRowsFromDom();
+  const state = getState();
+  const pm = GROUP_PM_MAP[projectData.group] || '';
+  const now = new Date().toLocaleString('ko-KR');
+
+  let checklistRows = checklistItems.map(item => {
+    const osState = formatChecklistOsState(item, state);
+    const note = item.note ? escHtml(item.note) : '';
+    const sub = item.subItems?.length
+      ? '<ul>' + item.subItems.map(s => `<li>${escHtml(s)}</li>`).join('') + '</ul>'
+      : '';
+    return `<tr>
+      <td>${escHtml(osState)}</td>
+      <td><strong>${escHtml(item.title)}</strong>${sub}</td>
+      <td>${escHtml(item.media)}</td>
+      <td>${escHtml(item.owner)}</td>
+      <td>${note}</td>
+    </tr>`;
+  }).join('');
+
+  let networkRows = networks.map(net => {
+    const aos = formatOsStatus(state[`net-${net.id}-aos`]);
+    const ios = formatOsStatus(state[`net-${net.id}-ios`]);
+    return `<tr>
+      <td><a href="${escAttr(net.url)}">${escHtml(net.name)}</a></td>
+      <td>${aos}</td>
+      <td>${ios}</td>
+    </tr>`;
+  }).join('');
+
+  const mappingRules = [...document.querySelectorAll('#section-5 .info-grid .info-item')].map(item => {
+    const label = item.querySelector('.info-label')?.textContent.trim() || '';
+    const value = item.querySelector('.info-value')?.textContent.trim() || '';
+    return `<tr><td>${escHtml(label)}</td><td>${escHtml(value)}</td></tr>`;
+  }).join('');
+
+  return `<!DOCTYPE html><html><body>
+<h1>마케팅팀 신규게임 제작본부 체크리스트</h1>
+<p><em>작성일: ${escHtml(now)}</em></p>
+
+<h2>1. 기본 정보</h2>
+<h3>프로젝트 정보</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr><th>항목</th><th>내용</th></tr>
+  <tr><td>타이틀</td><td>${escHtml(projectData.title)}</td></tr>
+  <tr><td>그룹</td><td>${escHtml(projectData.group)}</td></tr>
+  <tr><td>담당 PM</td><td>${escHtml(pm)}</td></tr>
+  <tr><td>게임 코드</td><td>${escHtml(projectData.gameCode)}</td></tr>
+  <tr><td>패키지 네임</td><td>${escHtml(projectData.packageName)}</td></tr>
+  <tr><td>앱스토어 ID</td><td>${escHtml(projectData.appStoreId)}</td></tr>
+  <tr><td>담당 마케터</td><td>${escHtml(projectData.marketer)}</td></tr>
+  <tr><td>BM</td><td>${escHtml(projectData.bm)}</td></tr>
+  <tr><td>특이사항</td><td>${escHtml(projectData.notes)}</td></tr>
+</table>
+
+<h3>링크 및 일정</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr><th>항목</th><th>내용</th></tr>
+  <tr><td>소재 드롭박스 링크</td><td>${escHtml(projectData.dropboxLink) || '—'}</td></tr>
+  <tr><td>테크니컬 캠페인 테스트 기간</td><td>${escHtml(formatDateRange(projectData.technicalStart, projectData.technicalEnd))}</td></tr>
+  <tr><td>1차 마케팅 캠페인 테스트 기간</td><td>${escHtml(formatDateRange(projectData.marketingStart, projectData.marketingEnd))}</td></tr>
+</table>
+
+<table border="1" cellpadding="8" cellspacing="0" bgcolor="#FEF3C7">
+  <tr><td>
+    <p><strong>신규 게임 마케팅 정보 요청 시 PM에게 슬랙으로 아래 정보 전달 요청</strong><br/>
+    → 내용 기입 필요 없으며 전달 목적</p>
+    <p>${SLACK_COPY_ITEMS.map(item => escHtml(item)).join('<br/>')}</p>
+  </td></tr>
+</table>
+
+<h2>2. 테스트 개요</h2>
+<p>캠페인 설정은 <strong>앱러빈 기본 설정값</strong>을 따르며, 예외 시 하단 도표 내 변경 사항 반영</p>
+<h3>마케팅팀 앱러빈 기본 설정값</h3>
+${cloneTableForExport('.campaign-table')}
+
+<h2>3. 체크리스트</h2>
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead><tr><th>OS 상태</th><th>항목</th><th>매체</th><th>주체</th><th>비고</th></tr></thead>
+  <tbody>${checklistRows}</tbody>
+</table>
+
+<h2>4. IAA 네트워크</h2>
+<h3>앱 스토어 URL</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr><th>OS</th><th>URL</th></tr>
+  <tr><td>AOS</td><td>${escHtml(projectData.storeUrlAos) || '—'}</td></tr>
+  <tr><td>iOS</td><td>${escHtml(projectData.storeUrlIos) || '—'}</td></tr>
+</table>
+<h3>네트워크별 Store URL 업데이트 체크</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead><tr><th>Network</th><th>AOS</th><th>iOS</th></tr></thead>
+  <tbody>${networkRows}</tbody>
+</table>
+
+<h2>5. 앱스플라이어 이벤트 매핑</h2>
+<h3>매핑 규칙</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr><th>항목</th><th>내용</th></tr>
+  ${mappingRules}
+</table>
+<h3>이벤트별 포스트백 설정</h3>
+${cloneTableForExport('#section-5 table')}
+</body></html>`;
+}
+
+function buildConfluencePlain() {
+  collectProjectFromForm();
+  collectCampaignFromForm();
+  syncEventRowsFromDom();
+  const state = getState();
+  const pm = GROUP_PM_MAP[projectData.group] || '';
+  const now = new Date().toLocaleString('ko-KR');
+  const lines = [];
+
+  lines.push('마케팅팀 신규게임 제작본부 체크리스트');
+  lines.push(`작성일: ${now}`);
+  lines.push('');
+  lines.push('h1. 1. 기본 정보');
+  lines.push('');
+  lines.push('||항목||내용||');
+  lines.push(`|타이틀|${projectData.title}|`);
+  lines.push(`|그룹|${projectData.group}|`);
+  lines.push(`|담당 PM|${pm}|`);
+  lines.push(`|게임 코드|${projectData.gameCode}|`);
+  lines.push(`|패키지 네임|${projectData.packageName}|`);
+  lines.push(`|앱스토어 ID|${projectData.appStoreId}|`);
+  lines.push(`|담당 마케터|${projectData.marketer}|`);
+  lines.push(`|BM|${projectData.bm}|`);
+  lines.push(`|특이사항|${projectData.notes}|`);
+  lines.push('');
+  lines.push('h2. 링크 및 일정');
+  lines.push('||항목||내용||');
+  lines.push(`|소재 드롭박스 링크|${projectData.dropboxLink || '—'}|`);
+  lines.push(`|테크니컬 캠페인 테스트 기간|${formatDateRange(projectData.technicalStart, projectData.technicalEnd)}|`);
+  lines.push(`|1차 마케팅 캠페인 테스트 기간|${formatDateRange(projectData.marketingStart, projectData.marketingEnd)}|`);
+  lines.push('');
+  lines.push(SLACK_COPY_PLAIN);
+  lines.push('');
+  lines.push('h1. 2. 테스트 개요');
+  lines.push('캠페인 설정은 앱러빈 기본 설정값을 따르며, 예외 시 하단 도표 내 변경 사항 반영');
+  lines.push('');
+  lines.push('h1. 3. 체크리스트');
+  checklistItems.forEach(item => {
+    const osState = formatChecklistOsState(item, state);
+    lines.push(`${osState} *${item.title}* — ${item.media} / ${item.owner}`);
+    if (item.note) lines.push(`    ${item.note}`);
+  });
+  lines.push('');
+  lines.push('h1. 4. IAA 네트워크');
+  lines.push('h2. 앱 스토어 URL');
+  lines.push(`|AOS|${projectData.storeUrlAos || '—'}|`);
+  lines.push(`|iOS|${projectData.storeUrlIos || '—'}|`);
+  lines.push('');
+  networks.forEach(net => {
+    const aos = formatOsStatus(state[`net-${net.id}-aos`]);
+    const ios = formatOsStatus(state[`net-${net.id}-ios`]);
+    lines.push(`| [${net.name}|${net.url}] | AOS: ${aos} | iOS: ${ios} |`);
+  });
+  lines.push('');
+  lines.push('h1. 5. 앱스플라이어 이벤트 매핑');
+  syncEventRowsFromDom();
+  eventRows.forEach(row => {
+    const aos = formatOsStatus(state[getEventCheckKey(row.id, 'aos')]);
+    const ios = formatOsStatus(state[getEventCheckKey(row.id, 'ios')]);
+    lines.push(`| ${resolveEventDisplayName(row)} | ${resolvePartnerEvent(row.eventKey)} | ${resolveIncludeText(row.eventKey)} | AOS: ${aos} | iOS: ${ios} |`);
+  });
+
+  return lines.join('\n');
+}
+
+function showCopyFeedback(btnId, doneText) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  const orig = btn.textContent;
+  btn.textContent = doneText;
+  btn.classList.add('copied');
+  setTimeout(() => {
+    btn.textContent = orig;
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+async function copyForConfluence() {
+  const html = buildConfluenceHtml();
+  const plain = buildConfluencePlain();
+
+  try {
+    if (navigator.clipboard?.write && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([plain], { type: 'text/plain' })
+        })
+      ]);
+    } else if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(plain);
+    } else {
+      throw new Error('clipboard unavailable');
+    }
+    showCopyFeedback('btnCopyConfluence', '✓ 복사 완료');
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = plain;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showCopyFeedback('btnCopyConfluence', '✓ 복사 완료');
+  }
+}
+
+const DEFAULT_PROJECT = {
+  title: 'Square Blocks',
+  group: 'Group 2',
+  gameCode: '',
+  packageName: '',
+  appStoreId: '',
+  marketer: '석준현',
+  bm: 'IAA + IAP 혼합',
+  notes: '특이사항 없음',
+  dropboxLink: '',
+  storeUrlAos: '',
+  storeUrlIos: '',
+  eventRows: null,
+  technicalStart: '',
+  technicalEnd: '',
+  marketingStart: '',
+  marketingEnd: ''
+};
+
+let projectData = { ...DEFAULT_PROJECT };
+let projectSaveTimer = null;
+
+function loadProject() {
+  try {
+    const saved = localStorage.getItem(PROJECT_STORAGE_KEY);
+    if (saved) projectData = { ...DEFAULT_PROJECT, ...JSON.parse(saved) };
+  } catch { projectData = { ...DEFAULT_PROJECT }; }
+
+  const storedVersion = Number(localStorage.getItem(PROJECT_STORAGE_VERSION_KEY) || 0);
+  if (storedVersion < PROJECT_STORAGE_VERSION) {
+    projectData.gameCode = '';
+    projectData.packageName = '';
+    projectData.appStoreId = '';
+    localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(projectData));
+    localStorage.setItem(PROJECT_STORAGE_VERSION_KEY, String(PROJECT_STORAGE_VERSION));
+  }
+}
+
+function saveProject() {
+  clearTimeout(projectSaveTimer);
+  projectSaveTimer = setTimeout(() => {
+    localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(projectData));
+  }, 300);
+}
+
+function collectProjectFromForm() {
+  syncEventRowsFromDom();
+  projectData = {
+    title: document.getElementById('field-title').value,
+    group: document.getElementById('field-group').value,
+    gameCode: document.getElementById('field-gameCode').value,
+    packageName: document.getElementById('field-packageName').value,
+    appStoreId: document.getElementById('field-appStoreId').value,
+    marketer: document.getElementById('field-marketer').value,
+    bm: document.getElementById('field-bm').value,
+    notes: document.getElementById('field-notes').value,
+    dropboxLink: document.getElementById('field-dropbox').value,
+    storeUrlAos: document.getElementById('field-store-aos').value,
+    storeUrlIos: document.getElementById('field-store-ios').value,
+    eventRows: JSON.parse(JSON.stringify(eventRows)),
+    technicalStart: document.getElementById('field-technical-start').value,
+    technicalEnd: document.getElementById('field-technical-end').value,
+    marketingStart: document.getElementById('field-marketing-start').value,
+    marketingEnd: document.getElementById('field-marketing-end').value
+  };
+  saveProject();
+  updateFooter();
+  schedulePreviewUpdate();
+}
+
+function updatePMFromGroup() {
+  const group = document.getElementById('field-group').value;
+  const pm = GROUP_PM_MAP[group] || '';
+  document.getElementById('field-pm').value = pm;
+}
+
+function applyProjectToForm() {
+  document.getElementById('field-title').value = projectData.title || '';
+  document.getElementById('field-group').value = projectData.group || 'Group 2';
+  updatePMFromGroup();
+  document.getElementById('field-gameCode').value = projectData.gameCode || '';
+  document.getElementById('field-packageName').value = projectData.packageName || '';
+  document.getElementById('field-appStoreId').value = projectData.appStoreId || '';
+  document.getElementById('field-marketer').value = projectData.marketer || '석준현';
+  document.getElementById('field-bm').value = projectData.bm || '';
+  document.getElementById('field-notes').value = projectData.notes || '';
+  document.getElementById('field-dropbox').value = projectData.dropboxLink || '';
+  document.getElementById('field-store-aos').value = projectData.storeUrlAos || '';
+  document.getElementById('field-store-ios').value = projectData.storeUrlIos || '';
+  document.getElementById('field-technical-start').value = projectData.technicalStart || '';
+  document.getElementById('field-technical-end').value = projectData.technicalEnd || '';
+  document.getElementById('field-marketing-start').value = projectData.marketingStart || '';
+  document.getElementById('field-marketing-end').value = projectData.marketingEnd || '';
+  updateFooter();
+}
+
+function bindProjectFields() {
+  const fields = [
+    'field-title', 'field-group', 'field-gameCode', 'field-packageName',
+    'field-appStoreId', 'field-marketer', 'field-bm', 'field-notes',
+    'field-dropbox', 'field-store-aos', 'field-store-ios',
+    'field-technical-start', 'field-technical-end',
+    'field-marketing-start', 'field-marketing-end'
+  ];
+
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    const evt = el.tagName === 'SELECT' || el.type === 'date' ? 'change' : 'input';
+    el.addEventListener(evt, () => {
+      if (id === 'field-group') updatePMFromGroup();
+      collectProjectFromForm();
+    });
+  });
+}
+
+const CAMPAIGN_STORAGE_KEY = 'sb-checklist-campaign';
+
+const DEFAULT_CAMPAIGN_STATE = {
+  groups: [
+    {
+      id: 'technical',
+      label: '테크니컬 캠페인',
+      country: 'WW',
+      countryNote: '(KR, CN 제외)',
+      rows: [
+        { id: 'tech-ios', os: 'ios', campaign: 'ADRoas D7', bidding: 'CPM', goal: '35', budget: '100' },
+        { id: 'tech-aos', os: 'aos', campaign: 'ADRoas D7', bidding: 'CPM', goal: '35', budget: '150' }
+      ]
+    },
+    {
+      id: 'marketing',
+      label: '1차 마케팅 캠페인',
+      country: 'WW',
+      countryNote: '(KR, CN 제외)',
+      rows: [
+        { id: 'mkt-ios-1', os: 'ios', campaign: 'ADRoas D28', bidding: 'CPI', goal: '60', budget: '650' },
+        { id: 'mkt-ios-2', os: 'ios', campaign: 'BLDRoas D28', bidding: 'CPI', goal: '55', budget: '1,000' },
+        { id: 'mkt-aos-1', os: 'aos', campaign: 'ADRoas D28', bidding: 'CPI', goal: '55', budget: '500' },
+        { id: 'mkt-aos-2', os: 'aos', campaign: 'BLDRoas D28', bidding: 'CPI', goal: '50', budget: '650' }
+      ]
+    }
+  ]
+};
+
+let campaignState = {
+  groups: JSON.parse(JSON.stringify(DEFAULT_CAMPAIGN_STATE.groups)),
+  removedRows: {}
+};
+let campaignSaveTimer = null;
+
+function normalizeCampaignState(state) {
+  if (!state.groups) {
+    state = buildCampaignStateFromLegacy(state);
+  }
+  if (!state.removedRows) state.removedRows = {};
+  return state;
+}
+
+function getDefaultGroup(groupId) {
+  return DEFAULT_CAMPAIGN_STATE.groups.find(g => g.id === groupId);
+}
+
+function getDefaultRow(groupId, rowId) {
+  const group = getDefaultGroup(groupId);
+  return group?.rows.find(r => r.id === rowId) || null;
+}
+
+function getActiveRowIds() {
+  const ids = new Set();
+  campaignState.groups.forEach(group => group.rows.forEach(row => ids.add(row.id)));
+  return ids;
+}
+
+function getRestorableRows() {
+  const activeIds = getActiveRowIds();
+  const restorable = [];
+
+  DEFAULT_CAMPAIGN_STATE.groups.forEach(defaultGroup => {
+    defaultGroup.rows.forEach(defaultRow => {
+      if (!activeIds.has(defaultRow.id)) {
+        restorable.push({
+          groupId: defaultGroup.id,
+          groupLabel: defaultGroup.label,
+          row: campaignState.removedRows[defaultRow.id]
+            ? JSON.parse(JSON.stringify(campaignState.removedRows[defaultRow.id]))
+            : JSON.parse(JSON.stringify(defaultRow))
+        });
+      }
+    });
+  });
+
+  return restorable;
+}
+
+function escAttr(s) {
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+}
+
+function findCampaignRow(rowId) {
+  for (const group of campaignState.groups) {
+    const row = group.rows.find(r => r.id === rowId);
+    if (row) return row;
+  }
+  return null;
+}
+
+function buildCampaignStateFromLegacy(parsed) {
+  const state = {
+    groups: JSON.parse(JSON.stringify(DEFAULT_CAMPAIGN_STATE.groups)),
+    removedRows: {}
+  };
+  state.groups.forEach(group => {
+    group.rows = group.rows
+      .filter(row => parsed[row.id])
+      .map(row => ({ ...row, ...parsed[row.id] }));
+  });
+  state.groups = state.groups.filter(group => group.rows.length > 0);
+  return state;
+}
+
+function loadCampaign() {
+  try {
+    const saved = localStorage.getItem(CAMPAIGN_STORAGE_KEY);
+    if (!saved) {
+      campaignState = { groups: JSON.parse(JSON.stringify(DEFAULT_CAMPAIGN_STATE.groups)), removedRows: {} };
+      return;
+    }
+    campaignState = normalizeCampaignState(JSON.parse(saved));
+  } catch {
+    campaignState = { groups: JSON.parse(JSON.stringify(DEFAULT_CAMPAIGN_STATE.groups)), removedRows: {} };
+  }
+}
+
+function saveCampaign() {
+  clearTimeout(campaignSaveTimer);
+  campaignSaveTimer = setTimeout(() => {
+    localStorage.setItem(CAMPAIGN_STORAGE_KEY, JSON.stringify(campaignState));
+  }, 300);
+}
+
+function syncCampaignFromDom() {
+  document.querySelectorAll('#campaignTableBody tr[data-row]').forEach(tr => {
+    const row = findCampaignRow(tr.dataset.row);
+    if (!row) return;
+    tr.querySelectorAll('.campaign-field').forEach(inp => {
+      row[inp.dataset.field] = inp.value;
+    });
+  });
+}
+
+function collectCampaignFromForm() {
+  syncCampaignFromDom();
+  saveCampaign();
+  schedulePreviewUpdate();
+}
+
+function deleteCampaignRow(rowId) {
+  if (!confirm('이 행을 삭제하시겠습니까?')) return;
+  syncCampaignFromDom();
+  const row = findCampaignRow(rowId);
+  if (row) campaignState.removedRows[rowId] = JSON.parse(JSON.stringify(row));
+  campaignState.groups.forEach(group => {
+    group.rows = group.rows.filter(row => row.id !== rowId);
+  });
+  campaignState.groups = campaignState.groups.filter(group => group.rows.length > 0);
+  saveCampaign();
+  renderCampaignTable();
+}
+
+function addCampaignRow(groupId, rowId) {
+  syncCampaignFromDom();
+  const defaultGroup = getDefaultGroup(groupId);
+  const defaultRow = getDefaultRow(groupId, rowId);
+  if (!defaultGroup || !defaultRow) return;
+  if (findCampaignRow(rowId)) return;
+
+  let group = campaignState.groups.find(g => g.id === groupId);
+  if (!group) {
+    group = {
+      id: defaultGroup.id,
+      label: defaultGroup.label,
+      country: defaultGroup.country,
+      countryNote: defaultGroup.countryNote,
+      rows: []
+    };
+    campaignState.groups.push(group);
+    const order = DEFAULT_CAMPAIGN_STATE.groups.map(g => g.id);
+    campaignState.groups.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+  }
+
+  const restoredRow = campaignState.removedRows[rowId]
+    ? JSON.parse(JSON.stringify(campaignState.removedRows[rowId]))
+    : JSON.parse(JSON.stringify(defaultRow));
+  delete campaignState.removedRows[rowId];
+
+  group.rows.push(restoredRow);
+  const rowOrder = defaultGroup.rows.map(r => r.id);
+  group.rows.sort((a, b) => rowOrder.indexOf(a.id) - rowOrder.indexOf(b.id));
+
+  saveCampaign();
+  renderCampaignTable();
+}
+
+function renderCampaignAddPanel() {
+  const panel = document.getElementById('campaignAddPanel');
+  if (!panel) return;
+
+  const restorable = getRestorableRows();
+  if (!restorable.length) {
+    panel.innerHTML = '';
+    panel.hidden = true;
+    return;
+  }
+
+  panel.hidden = false;
+  panel.innerHTML = `
+    <span class="campaign-add-label">삭제된 행 추가</span>
+    ${restorable.map(item => {
+      const osLabel = item.row.os === 'ios' ? 'iOS' : 'AOS';
+      return `<button type="button" class="btn-campaign-add" data-group-id="${escAttr(item.groupId)}" data-row-id="${escAttr(item.row.id)}">+ ${escHtml(item.groupLabel)} · ${osLabel} · ${escHtml(item.row.campaign)}</button>`;
+    }).join('')}
+  `;
+
+  panel.querySelectorAll('.btn-campaign-add').forEach(btn => {
+    btn.addEventListener('click', () => addCampaignRow(btn.dataset.groupId, btn.dataset.rowId));
+  });
+}
+
+function renderCampaignTable() {
+  const tbody = document.getElementById('campaignTableBody');
+  if (!tbody) return;
+
+  let html = '';
+  campaignState.groups.forEach(group => {
+    const rowCount = group.rows.length;
+    if (!rowCount) return;
+
+    group.rows.forEach((row, idx) => {
+      const osBadge = row.os === 'ios'
+        ? '<span class="badge badge-ios">iOS</span>'
+        : '<span class="badge badge-aos">AOS</span>';
+
+      html += `<tr data-row="${row.id}">`;
+      if (idx === 0) {
+        html += `<td rowspan="${rowCount}" class="campaign-type-cell"><strong class="campaign-type">${escHtml(group.label)}</strong></td>`;
+        html += `<td rowspan="${rowCount}" class="country-cell">${escHtml(group.country)}<small class="country-note">${escHtml(group.countryNote)}</small></td>`;
+      }
+      html += `
+        <td class="os-cell">${osBadge}</td>
+        <td class="editable-cell col-campaign"><input type="text" class="campaign-field" data-field="campaign" value="${escAttr(row.campaign)}"></td>
+        <td class="editable-cell col-bidding"><input type="text" class="campaign-field" data-field="bidding" value="${escAttr(row.bidding)}"></td>
+        <td class="editable-cell col-goal"><input type="text" class="campaign-field" data-field="goal" value="${escAttr(row.goal)}"></td>
+        <td class="editable-cell col-budget"><input type="text" class="campaign-field" data-field="budget" value="${escAttr(row.budget)}"></td>
+        <td class="col-delete"><button type="button" class="btn-row-delete" data-row-id="${row.id}" title="행 삭제" aria-label="행 삭제">×</button></td>
+      </tr>`;
+    });
+  });
+
+  tbody.innerHTML = html;
+
+  tbody.querySelectorAll('.campaign-field').forEach(inp => {
+    inp.addEventListener('input', collectCampaignFromForm);
+  });
+  tbody.querySelectorAll('.btn-row-delete').forEach(btn => {
+    btn.addEventListener('click', () => deleteCampaignRow(btn.dataset.rowId));
+  });
+
+  renderCampaignAddPanel();
+}
+
+function updateFooter() {
+  const footer = document.querySelector('.footer');
+  if (footer) {
+    const title = projectData.title || '—';
+    const group = projectData.group || '—';
+    footer.textContent = `신규 게임 사전 보고 (액션플랜 및 체크리스트) · ${title} · ${group}`;
+  }
+}
+
+function copySlackText() {
+  navigator.clipboard.writeText(SLACK_COPY_CLIPBOARD).then(() => {
+    const btn = document.getElementById('btnSlackCopy');
+    const toast = document.getElementById('copyToast');
+    btn.classList.add('copied');
+    btn.textContent = '✓ 복사 완료';
+    toast.classList.add('show');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.textContent = '📋 클릭하여 복사';
+      toast.classList.remove('show');
+    }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = SLACK_COPY_CLIPBOARD;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    document.getElementById('copyToast').classList.add('show');
+    setTimeout(() => document.getElementById('copyToast').classList.remove('show'), 2000);
+  });
+}
+
+function cleanupStrayNodes() {
+  document.querySelectorAll('.network-grid, .network-cell').forEach(el => {
+    if (!el.closest('#section-4')) el.remove();
+  });
+  document.querySelectorAll('#networkList').forEach(el => {
+    if (!el.closest('#section-4')) el.remove();
+  });
+}
+
+const checklistItems = [
+  {
+    id: 'ad-unit',
+    category: 'applovin',
+    title: 'Ad Unit 기본 생성',
+    media: '앱러빈',
+    automation: 'manual',
+    owner: 'MKT / 개발팀',
+    os: 'both',
+    note: 'OS / 광고 형식 별 Ad Unit 생성 — 개발팀으로부터 앱의 라이브 패키지명 전달받아 생성 진행'
+  },
+  {
+    id: 'placement',
+    category: 'applovin',
+    title: '네트워크 별 플레이스먼트 생성',
+    media: '자동화',
+    automation: 'auto',
+    owner: 'MKT',
+    os: 'both',
+    note: '관리 시트에 기록 후 MAX Ad Unit에 값 입력'
+  },
+  {
+    id: 'af-sdk',
+    category: 'appsflyer',
+    title: '앱스플라이어 SDK 삽입',
+    media: '앱스플라이어',
+    automation: 'manual',
+    owner: 'MKT / NGFE&PM',
+    os: 'both',
+    note: '앱스플라이어 앱 등록 (App Onboarding)'
+  },
+  {
+    id: 'af-onboarding',
+    category: 'appsflyer',
+    title: '앱스플라이어 앱 등록 (App Onboarding)',
+    media: '앱스플라이어',
+    automation: 'auto',
+    owner: 'NGFE&PM',
+    os: 'both',
+    note: ''
+  },
+  {
+    id: 'af-settings',
+    category: 'appsflyer',
+    title: '앱스플라이어 앱 세팅 체크 (App Settings)',
+    media: '앱스플라이어',
+    automation: 'auto',
+    owner: '자동화',
+    os: 'ios',
+    note: 'iOS는 Aggregated Advanced Privacy 토글 OFF!'
+  },
+  {
+    id: 'af-reattr',
+    category: 'appsflyer',
+    title: 'Re-engagement attribution 설정',
+    media: '자동화',
+    automation: 'auto',
+    owner: '자동화',
+    os: 'both',
+    note: 'Re-engagement attribution 토글 ON, 5일 설정'
+  },
+  {
+    id: 'af-network',
+    category: 'appsflyer',
+    title: '앱스플라이어 네트워크 연동 체크',
+    media: '앱스플라이어',
+    automation: 'auto',
+    owner: '자동화',
+    os: 'both',
+    note: 'Applovin, Max 연동 설정 확인',
+    subItems: [
+      'SDK Key 입력 확인',
+      'iOS Advanced Privacy 토글 OFF!',
+      'Transaction ID 토글 활성화',
+      'Share organic/non-organic indication 토글 활성화',
+      'Attribution lookback window: Click-through 7일, Re-engagement view-through attribution 토글 ON!'
+    ]
+  },
+  {
+    id: 'af-postback-default',
+    category: 'appsflyer',
+    title: 'Default Postback 옵션 선택',
+    media: '자동화',
+    automation: 'auto',
+    owner: '자동화',
+    os: 'both',
+    note: '모두 All media source, including organic 선택'
+  },
+  {
+    id: 'af-events',
+    category: 'appsflyer',
+    title: '앱 이벤트 체크',
+    media: '일부 자동화',
+    automation: 'partial',
+    owner: '자동화',
+    os: 'both',
+    note: 'af_app_opened 외 추가 이벤트 설정 필요 (앱 이벤트 리스트 신규 게임 본부 문의) — 각 이벤트별 매핑 이름 포함 기재 · 포스트백 이벤트 실제로 확인 후 포스트백 연동 진행'
+  },
+  {
+    id: 'af-cost',
+    category: 'appsflyer',
+    title: 'Cost 연동 확인',
+    media: '자동화',
+    automation: 'auto',
+    owner: '자동화',
+    os: 'both',
+    note: 'Cost API Active 설정 확인. iOS 앱 Cost API 연동 시 패키지명 안드로이드와 동일하게 입력'
+  },
+  {
+    id: 'af-privacy-max',
+    category: 'appsflyer',
+    title: 'iOS Privacy OFF (MAX)',
+    media: '앱스플라이어 (MAX)',
+    automation: 'auto',
+    owner: '자동화',
+    os: 'ios',
+    note: 'iOS Advanced Privacy 토글 OFF!'
+  },
+  {
+    id: 'af-ad-revenue',
+    category: 'appsflyer',
+    title: 'Ad Revenue 설정',
+    media: '자동화',
+    automation: 'auto',
+    owner: '자동화',
+    os: 'both',
+    note: '패키지명 입력 및 리포트 Key 확인'
+  },
+  {
+    id: 'iaa-store-url',
+    category: 'iaa',
+    title: 'IAA 네트워크 별 Store URL 업데이트',
+    media: '각 네트워크 별로 진행',
+    automation: 'manual',
+    owner: 'MKT',
+    os: 'both',
+    note: '앱 정식 출시 후 — 하단 IAA 체크리스트에서 별도 체크'
+  },
+  {
+    id: 'iaa-block',
+    category: 'iaa',
+    title: 'IAA 네트워크에서 앱별 경쟁 게임 차단',
+    media: '각 네트워크 별로 진행',
+    automation: 'manual',
+    owner: 'MKT',
+    os: 'both',
+    note: '하단 IAA 체크리스트에서 별도 체크'
+  },
+  {
+    id: 'iaa-verify',
+    category: 'iaa',
+    title: 'IAA 네트워크 별 정상 연동 확인',
+    media: '앱러빈 (MAX)',
+    automation: 'manual',
+    owner: 'MKT',
+    os: 'both',
+    note: '앱러빈 MAX → Advance Report → Application 찾은 후 → Network 체크박스 → 네트워크 별 Attempts, Response, Impression 확인 · 연동되어 있는 IAA 네트워크의 데이터 송수신 모두 확인 필수 (라이브 전/후)'
+  },
+  {
+    id: 'af-api',
+    category: 'appsflyer',
+    title: '앱스플라이어 API Push 엔드포인트 체크',
+    media: '앱스플라이어 > API Access',
+    automation: 'manual',
+    owner: 'MKT / Platform',
+    os: 'both',
+    note: '광고 라이브 후 플랫폼팀에 요청, API Access 더블체크 · 바이브 코딩으로 제작 시 미 요청'
+  },
+  {
+    id: 'firebase',
+    category: 'etc',
+    title: '파이어 베이스 권한 요청',
+    media: '파이어 베이스',
+    automation: 'manual',
+    owner: 'MKT / NGFE&PM',
+    os: 'both',
+    note: '바이브 코딩으로 제작 시 API Push 대신 요청'
+  },
+  {
+    id: 'cmp',
+    category: 'etc',
+    title: '구글 CMP 팝업',
+    media: '구글 애드몹',
+    automation: 'manual',
+    owner: 'MKT / PM',
+    os: 'both',
+    note: '운영 담당 앱 설치 후 확인 가능 — 테크니컬 테스트 진행 전부터 체크 · 본 테스트 전 필수 마무리'
+  },
+  {
+    id: 'user-info',
+    category: 'etc',
+    title: '유저 정보가 각 네트워크 별로 가고 있는지 확인',
+    media: '디버거',
+    automation: 'manual',
+    owner: 'MKT / 클라이언트&개발자',
+    os: 'both',
+    note: '본 테스트 전 필수 마무리'
+  },
+  {
+    id: 'creative-review',
+    category: 'applovin',
+    title: 'Creative Review',
+    media: '앱러빈 (MAX)',
+    automation: 'manual',
+    owner: 'MKT',
+    os: 'both',
+    note: 'Creative Review에서 앱 필터 후 광고가 뜨는지 확인'
+  },
+  {
+    id: 'marketing-plan',
+    category: 'applovin',
+    title: '마케팅 플랜 문서 공유',
+    media: '앱러빈 (AXON)',
+    automation: 'manual',
+    owner: 'MKT',
+    os: 'both',
+    note: '캠페인 시작 3일 전 필수 공유 → IAA / IAP 기획 시 비중 사전 확인 후 작성'
+  },
+  {
+    id: 'campaign-setup',
+    category: 'applovin',
+    title: '캠페인 세팅',
+    media: '자동화',
+    automation: 'auto',
+    owner: 'MKT / 성장혁신',
+    os: 'both',
+    note: '참고 - 성장혁신 자동화 세팅 프로세스 (테스트 개요 참조)'
+  }
+];
+
+const EVENT_DROPDOWN_OPTIONS = [
+  { value: 'af_app_opened', label: 'af_app_opened' },
+  { value: 'af_purchase', label: 'af_purchase' },
+  { value: 'af_level_achieved', label: 'af_level_achieved' },
+  { value: 'af_stage_clear', label: 'af_stage_clear' },
+  { value: 'custom', label: '직접 입력' }
+];
+
+const DEFAULT_EVENT_ROWS = [
+  { id: 'evt-app-opened', eventKey: 'af_app_opened', customEvent: '' },
+  { id: 'evt-purchase', eventKey: 'af_purchase', customEvent: '' },
+  { id: 'evt-stage-clear', eventKey: 'af_stage_clear', customEvent: '' },
+  { id: 'evt-others', eventKey: 'custom', customEvent: '' }
+];
+
+let eventRows = [];
+
+function resolvePartnerEvent(eventKey) {
+  if (eventKey === 'af_app_opened') return 'landing';
+  if (eventKey === 'af_purchase') return 'checkout';
+  return 'postinstall';
+}
+
+function resolveIncludeText(eventKey) {
+  return eventKey === 'af_purchase' ? 'Values & revenue' : 'No values & no revenue';
+}
+
+function resolveEventDisplayName(row) {
+  if (row.eventKey === 'custom') return row.customEvent.trim() || '직접 입력';
+  return row.eventKey;
+}
+
+function loadEventRows() {
+  if (Array.isArray(projectData.eventRows) && projectData.eventRows.length) {
+    eventRows = projectData.eventRows.map(row => ({
+      id: row.id,
+      eventKey: row.eventKey || 'custom',
+      customEvent: row.customEvent || ''
+    }));
+  } else {
+    eventRows = JSON.parse(JSON.stringify(DEFAULT_EVENT_ROWS));
+  }
+}
+
+function saveEventRows() {
+  projectData.eventRows = JSON.parse(JSON.stringify(eventRows));
+  saveProject();
+}
+
+function syncEventRowsFromDom() {
+  document.querySelectorAll('#eventTableBody tr[data-row-id]').forEach(tr => {
+    const row = eventRows.find(r => r.id === tr.dataset.rowId);
+    if (!row) return;
+    const select = tr.querySelector('.event-field-select');
+    const custom = tr.querySelector('.event-field-custom');
+    if (custom && !select) {
+      row.eventKey = 'custom';
+      row.customEvent = custom.value;
+      return;
+    }
+    if (select) row.eventKey = select.value;
+  });
+}
+
+function updateEventDerivedCells(tr, eventKey) {
+  const partnerCell = tr.querySelector('.partner-cell');
+  const includeCell = tr.querySelector('.include-cell');
+  if (partnerCell) partnerCell.textContent = resolvePartnerEvent(eventKey);
+  if (includeCell) {
+    includeCell.textContent = resolveIncludeText(eventKey);
+    includeCell.classList.toggle('include-purchase', eventKey === 'af_purchase');
+  }
+}
+
+function renderEventCell(row) {
+  if (row.eventKey === 'custom') {
+    return `
+      <div class="event-field-wrap">
+        <input type="text" class="event-field-custom" data-row-id="${row.id}" placeholder="이벤트명 입력" value="${escAttr(row.customEvent)}">
+        <button type="button" class="event-field-mode-toggle" data-row-id="${row.id}" title="목록에서 선택" aria-label="목록에서 선택">▾</button>
+      </div>
+    `;
+  }
+  const options = EVENT_DROPDOWN_OPTIONS.map(opt =>
+    `<option value="${opt.value}" ${row.eventKey === opt.value ? 'selected' : ''}>${opt.label}</option>`
+  ).join('');
+  return `<select class="event-field-select" data-row-id="${row.id}">${options}</select>`;
+}
+
+function focusEventCustomInput(rowId) {
+  requestAnimationFrame(() => {
+    const input = document.querySelector(`#eventTableBody tr[data-row-id="${rowId}"] .event-field-custom`);
+    if (!input) return;
+    input.focus();
+    input.select();
+  });
+}
+
+function getEventCheckKey(id, os) {
+  return `${id}-${os}`;
+}
+
+function migrateEventState(state) {
+  const legacyIds = DEFAULT_EVENT_ROWS.map(row => row.id);
+  let migrated = false;
+  legacyIds.forEach(id => {
+    if (state[id] === undefined) return;
+    const legacy = !!state[id];
+    delete state[id];
+    ['aos', 'ios'].forEach(os => {
+      const key = getEventCheckKey(id, os);
+      if (state[key] === undefined) {
+        state[key] = legacy;
+        migrated = true;
+      }
+    });
+    migrated = true;
+  });
+  return migrated;
+}
+
+function renderEventOsPanel(id, state) {
+  return renderOsCheckPanel({
+    aos: getEventCheckKey(id, 'aos'),
+    ios: getEventCheckKey(id, 'ios')
+  }, state);
+}
+
+function addEventRow() {
+  syncEventRowsFromDom();
+  eventRows.push({
+    id: `evt-${Date.now()}`,
+    eventKey: 'af_level_achieved',
+    customEvent: ''
+  });
+  saveEventRows();
+  renderEventTable();
+}
+
+function deleteEventRow(rowId) {
+  if (eventRows.length <= 1) return;
+  if (!confirm('이 행을 삭제하시겠습니까?')) return;
+  syncEventRowsFromDom();
+  eventRows = eventRows.filter(row => row.id !== rowId);
+  const state = getState();
+  ['aos', 'ios'].forEach(os => delete state[getEventCheckKey(rowId, os)]);
+  saveState(state);
+  saveEventRows();
+  renderEventTable();
+  updateProgress();
+}
+
+function renderEventTable() {
+  const tbody = document.getElementById('eventTableBody');
+  if (!tbody) return;
+
+  const state = getState();
+  tbody.innerHTML = eventRows.map(row => {
+    const includeClass = row.eventKey === 'af_purchase' ? 'include-purchase' : '';
+    return `<tr data-row-id="${row.id}">
+      <td>${renderEventCell(row)}</td>
+      <td class="event-derived partner-cell">${escHtml(resolvePartnerEvent(row.eventKey))}</td>
+      <td class="event-derived include-cell ${includeClass}">${escHtml(resolveIncludeText(row.eventKey))}</td>
+      <td class="col-os-panel">${renderEventOsPanel(row.id, state)}</td>
+      <td class="col-actions">${eventRows.length > 1 ? `<button type="button" class="btn-row-delete" data-row-id="${row.id}" title="행 삭제" aria-label="행 삭제">×</button>` : ''}</td>
+    </tr>`;
+  }).join('');
+
+  tbody.querySelectorAll('.event-field-select').forEach(select => {
+    select.addEventListener('change', () => {
+      const row = eventRows.find(r => r.id === select.dataset.rowId);
+      if (!row) return;
+      row.eventKey = select.value;
+      if (row.eventKey === 'custom') {
+        saveEventRows();
+        renderEventTable();
+        focusEventCustomInput(row.id);
+        return;
+      }
+      updateEventDerivedCells(select.closest('tr'), row.eventKey);
+      saveEventRows();
+    });
+  });
+
+  tbody.querySelectorAll('.event-field-custom').forEach(input => {
+    input.addEventListener('input', () => {
+      const row = eventRows.find(r => r.id === input.dataset.rowId);
+      if (row) row.customEvent = input.value;
+      saveEventRows();
+    });
+  });
+
+  tbody.querySelectorAll('.event-field-mode-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const row = eventRows.find(r => r.id === btn.dataset.rowId);
+      if (!row) return;
+      syncEventRowsFromDom();
+      row.eventKey = 'af_level_achieved';
+      saveEventRows();
+      renderEventTable();
+    });
+  });
+
+  tbody.querySelectorAll('.os-check-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const state = getState();
+      state[btn.dataset.key] = !state[btn.dataset.key];
+      saveState(state);
+      renderEventTable();
+      updateProgress();
+    });
+  });
+
+  tbody.querySelectorAll('.btn-row-delete').forEach(btn => {
+    btn.addEventListener('click', () => deleteEventRow(btn.dataset.rowId));
+  });
+
+  const addBtn = document.getElementById('btnEventAdd');
+  if (addBtn && !addBtn.dataset.bound) {
+    addBtn.dataset.bound = '1';
+    addBtn.addEventListener('click', addEventRow);
+  }
+}
+
+const networks = [
+  { id: 'applovin', name: 'AppLovin', url: 'https://max.applovin.com/login' },
+  { id: 'bidmachine', name: 'BidMachine', url: 'https://dashboard.bidmachine.io/sign-in?_gl=1*44ql9*_gcl_au*MTA5MDg1MzY1MC4xNzgyODg5MTAz*_ga*MTA3NjcyODUxNC4xNzgyODg5MTAz*_ga_35NLF2GJ1D*czE3ODI4ODkxMDIkbzEkZzAkdDE3ODI4ODkxMDIkajYwJGwwJGgxMjg1MjQ0ODIy' },
+  { id: 'dt-exchange', name: 'DT Exchange', url: 'https://console.fyber.com/login?redirect=%7B%22path%22%3A%22%2Fapp-management%22%2C%22params%22%3A%7B%7D%2C%22hash%22%3A%22%23%2Fapplication%2F230775%2Fplacement%2F2625474%22%7D#/application/230775/placement/2625474' },
+  { id: 'google-admob', name: 'Google AdMob', url: 'https://admob.google.com/v2/home' },
+  { id: 'inmobi', name: 'InMobi', url: 'https://publisher.inmobi.com/signup' },
+  { id: 'ironsource', name: 'ironSource', url: 'https://auth.ironsrc.com/login?state=hKFo2SBIZDY2cHVzWE5QVFlHRlZyLUJWNTdnR1hDMHhncGtseKFupWxvZ2luo3RpZNkgdFhZSC1xdmRCU0xMa3lwOWwtUjJ1Q3NoOGYtLUx6LVSjY2lk2SBnelBFQ0JOT0ZiZkdWSEJhRm1DSGZhRVB6MmhSdXllQQ&client=gzPECBNOFbfGVHBaFmCHfaEPz2hRuyeA&protocol=oauth2&prompt=login&scope=openid%20profile%20email&response_type=code&redirect_uri=https%3A%2F%2Fprod-ssp-platform.supersonic.com%2Fpartners%2Fauth%2Fv2%2Foidc%2Fcallback%3FreturnTo%3D%2Fpartners%2Fnext%2Fmediation%2Fapps%3Fvisibility%3Dshown%26baseUrl%3Dhttps%3A%2F%2Fprod-ssp-platform.supersonic.com%2Fpartners%2Fauth%2Fv2%2Foidc%26platformRedirect%3Dhttps%3A%2F%2Fplatform.ironsrc.com%2Fpartners%2Fidentity%2Flogin%2Fcallback&response_mode=form_post&audience=https%3A%2F%2Fis-platform%2F&nonce=E0b1s0NNn4_bPYHb2kTcrk2_tKSkoL9jpHIHFa9WA5U&code_challenge_method=S256&code_challenge=OiEr8-E4Xos3ZD6g69mFgLCyz9HVAbBPkkqo-zOT7Rg' },
+  { id: 'liftoff', name: 'Liftoff', url: 'https://publisher.vungle.com/placements/update/67a9b078f3986714c77f1249' },
+  { id: 'meta', name: 'Meta', url: 'https://www.facebook.com/business/tools/meta-business-suite?content_id=guytzTVdxSyJc0p&ref=sem_smb&utm_term=facebook%20business%20manager&gclid=CjwKCAjw0o3SBhBVEiwAh28-jcrBnSNEoUAY5VLHjCkvVdEHU6_2Uwd-gjLYHl7MCfYXzk4_HSwH1BoCia8QAvD_BwE&gad_source=1&gad_campaignid=21806309731&gbraid=0AAAAACr-yC-IMlo2RZC7djXJPO8fE861b' },
+  { id: 'mintegral', name: 'Mintegral', url: 'https://dev.mintegral.com/user/login' },
+  { id: 'moloco', name: 'Moloco', url: 'https://publisher.moloco.cloud/login?redirect=%2Fpm%2Fpublisher%2Fr5ZQf6kSSKWMREJE' },
+  { id: 'pangle', name: 'Pangle', url: 'https://www.pangleglobal.com/publisher/application' },
+  { id: 'unity', name: 'Unity', url: 'https://id.unity.com/en/conversations/03a4ded1-c783-40e4-907e-f97773e7982e00cf' }
+];
+
+const NETWORK_LEGACY_MAP = {
+  '앱러빈': 'applovin',
+  '구글 애드몹': 'google-admob',
+  '메타': 'meta',
+  '리프트오프': 'liftoff',
+  '민티그럴': 'mintegral',
+  '아이언소스': 'ironsource',
+  '유니티': 'unity',
+  '인모비': 'inmobi',
+  'DT Exchange': 'dt-exchange',
+  '팽글': 'pangle',
+  '몰로코': 'moloco',
+  '비드머신': 'bidmachine'
+};
+
+function migrateNetworkState(state) {
+  let migrated = false;
+  Object.entries(NETWORK_LEGACY_MAP).forEach(([korean, id]) => {
+    ['aos', 'ios'].forEach(os => {
+      const oldKey = `net-${korean}-${os}`;
+      const newKey = `net-${id}-${os}`;
+      if (state[oldKey] !== undefined && state[newKey] === undefined) {
+        state[newKey] = state[oldKey];
+        migrated = true;
+      }
+      if (state[oldKey] !== undefined) {
+        delete state[oldKey];
+        migrated = true;
+      }
+    });
+  });
+  return migrated;
+}
+
+function getChecklistOsTargets(item) {
+  if (item.os === 'both') return ['aos', 'ios'];
+  if (item.os === 'ios') return ['ios'];
+  if (item.os === 'aos') return ['aos'];
+  return [];
+}
+
+function getChecklistKey(itemId, os) {
+  return `${itemId}-${os}`;
+}
+
+function migrateChecklistState(state) {
+  let migrated = false;
+  checklistItems.forEach(item => {
+    if (state[item.id] === undefined) return;
+    const legacy = !!state[item.id];
+    delete state[item.id];
+    getChecklistOsTargets(item).forEach(os => {
+      const key = getChecklistKey(item.id, os);
+      if (state[key] === undefined) {
+        state[key] = legacy;
+        migrated = true;
+      }
+    });
+    migrated = true;
+  });
+  return migrated;
+}
+
+function getChecklistItemStatus(item, state) {
+  const targets = getChecklistOsTargets(item);
+  const doneCount = targets.filter(os => state[getChecklistKey(item.id, os)]).length;
+  if (!targets.length || doneCount === 0) return 'none';
+  if (doneCount === targets.length) return 'done';
+  return 'partial';
+}
+
+function formatChecklistOsState(item, state) {
+  const targets = getChecklistOsTargets(item);
+  if (!targets.length) return '—';
+  return targets.map(os => {
+    const label = os === 'ios' ? 'iOS' : 'AOS';
+    return `${label} ${formatOsStatus(state[getChecklistKey(item.id, os)])}`;
+  }).join(' · ');
+}
+
+function getOsProgress(items, state) {
+  let aosTotal = 0;
+  let aosDone = 0;
+  let iosTotal = 0;
+  let iosDone = 0;
+
+  items.forEach(item => {
+    if (getChecklistOsTargets(item).includes('aos')) {
+      aosTotal++;
+      if (state[getChecklistKey(item.id, 'aos')]) aosDone++;
+    }
+    if (getChecklistOsTargets(item).includes('ios')) {
+      iosTotal++;
+      if (state[getChecklistKey(item.id, 'ios')]) iosDone++;
+    }
+  });
+
+  return { aosTotal, aosDone, iosTotal, iosDone };
+}
+
+function getState() {
+  let state;
+  try {
+    state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  } catch {
+    state = {};
+  }
+  let migrated = false;
+  if (migrateChecklistState(state)) migrated = true;
+  if (migrateNetworkState(state)) migrated = true;
+  if (migrateEventState(state)) migrated = true;
+  if (migrated) saveState(state);
+  return state;
+}
+
+function saveState(state) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function automationBadge(type) {
+  const map = {
+    auto: '<span class="badge badge-auto">자동화</span>',
+    manual: '<span class="badge badge-manual">수동</span>',
+    partial: '<span class="badge badge-partial">일부 자동화</span>'
+  };
+  return map[type] || '';
+}
+
+function osBadge(os) {
+  const map = {
+    ios: '<span class="badge badge-ios">iOS만</span>',
+    aos: '<span class="badge badge-aos">AOS만</span>',
+    both: '<span class="badge badge-both">AOS + iOS</span>'
+  };
+  return map[os] || '';
+}
+
+function renderOsCheckButton(key, os, state) {
+  const checked = !!state[key];
+  const label = os === 'ios' ? 'iOS' : 'AOS';
+  return `
+    <button type="button"
+      class="os-check-btn ${os} ${checked ? 'checked' : ''}"
+      data-key="${key}"
+      data-os="${os}"
+      aria-pressed="${checked}"
+      title="${label} ${formatOsStatus(checked)}">
+      <span class="os-check-name">${label}</span>
+      <span class="os-check-status">${formatOsStatus(checked)}</span>
+    </button>`;
+}
+
+function renderOsCheckPanel(keys, state) {
+  return `<div class="os-check-panel">
+    ${renderOsCheckButton(keys.aos, 'aos', state)}
+    ${renderOsCheckButton(keys.ios, 'ios', state)}
+  </div>`;
+}
+
+function getNetworkRowStatus(netId, state) {
+  const aos = !!state[`net-${netId}-aos`];
+  const ios = !!state[`net-${netId}-ios`];
+  if (aos && ios) return 'done';
+  if (aos || ios) return 'partial';
+  return 'none';
+}
+
+function renderNetworkOsHeader() {
+  return `
+    <div class="checklist-os-header">
+      <div class="checklist-os-header-label">네트워크</div>
+      <div class="os-check-panel">
+        <span class="os-check-header-slot aos">AOS</span>
+        <span class="os-check-header-slot ios">iOS</span>
+      </div>
+    </div>`;
+}
+
+function renderOsCheckButtons(item, state) {
+  const targets = getChecklistOsTargets(item);
+  const panelClass = targets.length === 1 ? 'os-check-panel single' : 'os-check-panel';
+
+  return `<div class="${panelClass}">${targets.map(os => {
+    const key = getChecklistKey(item.id, os);
+    const checked = !!state[key];
+    const label = os === 'ios' ? 'iOS' : 'AOS';
+    return `
+      <button type="button"
+        class="os-check-btn ${os} ${checked ? 'checked' : ''}"
+        data-id="${item.id}"
+        data-key="${key}"
+        data-os="${os}"
+        aria-pressed="${checked}"
+        title="${label} ${formatOsStatus(checked)}">
+        <span class="os-check-name">${label}</span>
+        <span class="os-check-status">${formatOsStatus(checked)}</span>
+      </button>`;
+  }).join('')}</div>`;
+}
+
+function renderChecklistOsHeader(items) {
+  const hasAos = items.some(item => getChecklistOsTargets(item).includes('aos'));
+  const hasIos = items.some(item => getChecklistOsTargets(item).includes('ios'));
+  if (!hasAos && !hasIos) return '';
+
+  let slots = '';
+  if (hasAos) slots += '<span class="os-check-header-slot aos">AOS</span>';
+  if (hasIos) slots += '<span class="os-check-header-slot ios">iOS</span>';
+
+  return `
+    <div class="checklist-os-header">
+      <div class="checklist-os-header-label">체크 항목</div>
+      <div class="os-check-panel">${slots}</div>
+    </div>`;
+}
+
+function renderChecklistToolbar(items, state, filter) {
+  const { aosTotal, aosDone, iosTotal, iosDone } = getOsProgress(items, state);
+  const hasAos = aosTotal > 0;
+  const hasIos = iosTotal > 0;
+
+  return `
+    <div class="checklist-toolbar">
+      <div class="checklist-os-summary">
+        ${hasAos ? `<span class="summary-aos">AOS ${aosDone}/${aosTotal}</span>` : ''}
+        ${hasIos ? `<span class="summary-ios">iOS ${iosDone}/${iosTotal}</span>` : ''}
+      </div>
+      <div class="checklist-bulk-actions">
+        ${hasAos ? `<button type="button" class="btn-os-bulk aos" data-bulk-os="aos" data-bulk-value="1">AOS 전체 완료</button>` : ''}
+        ${hasIos ? `<button type="button" class="btn-os-bulk ios" data-bulk-os="ios" data-bulk-value="1">iOS 전체 완료</button>` : ''}
+        <button type="button" class="btn-os-bulk clear" data-bulk-os="all" data-bulk-value="0">표시 항목 전체 해제</button>
+      </div>
+    </div>`;
+}
+
+function renderChecklist(filter = 'all') {
+  const container = document.getElementById('checklistContainer');
+  const state = getState();
+  const items = filter === 'all' ? checklistItems : checklistItems.filter(i => i.category === filter);
+
+  const itemsHtml = items.map(item => {
+    const status = getChecklistItemStatus(item, state);
+    const statusClass = status === 'done' ? 'checked' : status === 'partial' ? 'partial' : '';
+    const subHtml = item.subItems
+      ? `<div class="sub-item">${item.subItems.map(s => `• ${s}`).join('<br>')}</div>`
+      : '';
+
+    return `
+      <div class="checklist-item ${statusClass}" data-id="${item.id}" data-category="${item.category}">
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-title">${item.title}</span>
+          </div>
+          <div class="item-meta">
+            ${automationBadge(item.automation)}
+            ${osBadge(item.os)}
+            <span class="badge" style="background: var(--surface-2); color: var(--text-muted);">${item.media}</span>
+            <span class="badge" style="background: var(--surface-2); color: var(--text-muted);">${item.owner}</span>
+          </div>
+          ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
+          ${subHtml}
+        </div>
+        ${renderOsCheckButtons(item, state)}
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML =
+    renderChecklistToolbar(items, state, filter) +
+    renderChecklistOsHeader(items) +
+    itemsHtml;
+
+  container.querySelectorAll('.os-check-btn').forEach(btn => {
+    btn.addEventListener('click', handleOsCheck);
+  });
+
+  container.querySelectorAll('.btn-os-bulk').forEach(btn => {
+    btn.addEventListener('click', () => {
+      bulkChecklistOs(btn.dataset.bulkOs, btn.dataset.bulkValue === '1', filter);
+    });
+  });
+
+  updateProgress();
+}
+
+function handleOsCheck(e) {
+  const btn = e.currentTarget;
+  const { id, os } = btn.dataset;
+  const state = getState();
+  const key = getChecklistKey(id, os);
+  state[key] = !state[key];
+  saveState(state);
+
+  const item = checklistItems.find(i => i.id === id);
+  const row = btn.closest('.checklist-item');
+  if (item && row) {
+    const status = getChecklistItemStatus(item, state);
+    row.classList.toggle('checked', status === 'done');
+    row.classList.toggle('partial', status === 'partial');
+  }
+
+  btn.classList.toggle('checked', state[key]);
+  btn.setAttribute('aria-pressed', state[key]);
+  btn.querySelector('.os-check-status').textContent = formatOsStatus(state[key]);
+  btn.title = `${btn.querySelector('.os-check-name').textContent} ${formatOsStatus(state[key])}`;
+
+  const filter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+  const items = filter === 'all' ? checklistItems : checklistItems.filter(i => i.category === filter);
+  const container = document.getElementById('checklistContainer');
+  const summary = container?.querySelector('.checklist-os-summary');
+  if (summary) {
+    const { aosTotal, aosDone, iosTotal, iosDone } = getOsProgress(items, state);
+    const aosEl = summary.querySelector('.summary-aos');
+    const iosEl = summary.querySelector('.summary-ios');
+    if (aosEl) aosEl.textContent = `AOS ${aosDone}/${aosTotal}`;
+    if (iosEl) iosEl.textContent = `iOS ${iosDone}/${iosTotal}`;
+  }
+
+  updateProgress();
+}
+
+function bulkChecklistOs(targetOs, checked, filter) {
+  const state = getState();
+  const items = filter === 'all' ? checklistItems : checklistItems.filter(i => i.category === filter);
+
+  items.forEach(item => {
+    if (targetOs === 'all') {
+      getChecklistOsTargets(item).forEach(os => {
+        state[getChecklistKey(item.id, os)] = checked;
+      });
+    } else if (getChecklistOsTargets(item).includes(targetOs)) {
+      state[getChecklistKey(item.id, targetOs)] = checked;
+    }
+  });
+
+  saveState(state);
+  renderChecklist(filter);
+}
+
+function renderNetworkGrid() {
+  const list = document.getElementById('networkList');
+  if (!list) return;
+
+  const state = getState();
+  const itemsHtml = networks.map(net => {
+    const aosKey = `net-${net.id}-aos`;
+    const iosKey = `net-${net.id}-ios`;
+    const status = getNetworkRowStatus(net.id, state);
+    const statusClass = status === 'done' ? 'checked' : status === 'partial' ? 'partial' : '';
+
+    return `
+      <div class="checklist-item network-item ${statusClass}" data-net-id="${net.id}">
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-title">
+              <a href="${escAttr(net.url)}" class="network-name-link" target="_blank" rel="noopener">${escHtml(net.name)}</a>
+            </span>
+          </div>
+        </div>
+        ${renderOsCheckPanel({ aos: aosKey, ios: iosKey }, state)}
+      </div>`;
+  }).join('');
+
+  list.innerHTML = renderNetworkOsHeader() + itemsHtml;
+
+  list.querySelectorAll('.os-check-btn').forEach(btn => {
+    btn.addEventListener('click', handleNetworkOsCheck);
+  });
+}
+
+function handleNetworkOsCheck(e) {
+  const btn = e.currentTarget;
+  const key = btn.dataset.key;
+  const state = getState();
+  state[key] = !state[key];
+  saveState(state);
+  renderNetworkGrid();
+  updateProgress();
+}
+
+function updateProgress() {
+  const state = getState();
+  const networkChecks = networks.length * 2;
+  const eventCheckCount = eventRows.length * 2;
+
+  let total = networkChecks + eventCheckCount;
+  let done = 0;
+
+  checklistItems.forEach(item => {
+    getChecklistOsTargets(item).forEach(os => {
+      total++;
+      if (state[getChecklistKey(item.id, os)]) done++;
+    });
+  });
+
+  eventRows.forEach(row => {
+    if (state[getEventCheckKey(row.id, 'aos')]) done++;
+    if (state[getEventCheckKey(row.id, 'ios')]) done++;
+  });
+
+  networks.forEach(net => {
+    if (state[`net-${net.id}-aos`]) done++;
+    if (state[`net-${net.id}-ios`]) done++;
+  });
+
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${done} / ${total} (${pct}%)`;
+  schedulePreviewUpdate();
+}
+
+function resetAll() {
+  if (confirm('모든 체크 상태를 초기화하시겠습니까?')) {
+    localStorage.removeItem(STORAGE_KEY);
+    renderChecklist(document.querySelector('.filter-btn.active')?.dataset.filter || 'all');
+    renderNetworkGrid();
+    renderEventTable();
+    updateProgress();
+  }
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderChecklist(btn.dataset.filter);
+  });
+});
+
+// Event checkboxes — rendered via renderEventTable()
+
+// Nav active state on scroll
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+// Init
+cleanupStrayNodes();
+loadProject();
+loadEventRows();
+applyProjectToForm();
+bindProjectFields();
+loadCampaign();
+renderCampaignTable();
+renderChecklist();
+renderNetworkGrid();
+renderEventTable();
+updateProgress();
+updateConfluencePreview();
+</script>
+</body>
+</html>
