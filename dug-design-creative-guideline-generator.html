@@ -569,7 +569,7 @@ body {
     <!-- 담당자 -->
     <div class="section">
       <div class="section-head">
-        <div class="section-icon blue">👤</div>
+        <div class="section-icon blue"></div>
         <div class="section-title">담당자 & 업로드</div>
       </div>
       <div class="section-body">
@@ -591,7 +591,7 @@ body {
     <!-- 기본 정보 -->
     <div class="section">
       <div class="section-head">
-        <div class="section-icon blue">📋</div>
+        <div class="section-icon blue"></div>
         <div class="section-title">기본 정보</div>
       </div>
       <div class="section-body">
@@ -685,7 +685,7 @@ body {
     <!-- 소재 파일명 -->
     <div class="section">
       <div class="section-head">
-        <div class="section-icon purple">🏷️</div>
+        <div class="section-icon purple"></div>
         <div class="section-title">소재 파일명</div>
       </div>
       <div class="section-body">
@@ -704,7 +704,7 @@ body {
     <!-- 이미지 기획 -->
     <div class="section" id="sec-img">
       <div class="section-head">
-        <div class="section-icon gold">🖼️</div>
+        <div class="section-icon gold"></div>
         <div class="section-title">이미지 기획</div>
       </div>
       <div class="section-body">
@@ -738,7 +738,7 @@ body {
     <!-- 영상 기획 -->
     <div class="section" id="sec-vid">
       <div class="section-head">
-        <div class="section-icon blue">🎬</div>
+        <div class="section-icon blue"></div>
         <div class="section-title">영상 기획 — 씬 구성</div>
       </div>
       <div class="section-body">
@@ -761,7 +761,7 @@ body {
       <div class="preview-content">
         <div id="preview">
           <div class="preview-empty" id="previewEmpty">
-            <div class="preview-empty-icon">📄</div>
+            <div class="preview-empty-icon"></div>
             <p>정보를 입력한 뒤<br/><strong>기획안 생성</strong> 버튼을 눌러주세요</p>
           </div>
         </div>
@@ -870,7 +870,7 @@ function bindAutoTranslate(koId, engId, btnId){
       const result=await translateKOtoEN(text);
       engEl.value=result;
       engManual.delete(engId);
-      if(btnEl){btnEl.classList.remove('loading');btnEl.classList.add('done');btnEl.textContent='✓';setTimeout(()=>{btnEl.classList.remove('done');btnEl.textContent='번역';},1500);}
+      if(btnEl){btnEl.classList.remove('loading');btnEl.classList.add('done');btnEl.textContent='완료';setTimeout(()=>{btnEl.classList.remove('done');btnEl.textContent='번역';},1500);}
     }catch(e){
       if(btnEl){btnEl.classList.remove('loading');btnEl.textContent='번역';}
       showToast('번역 실패 — 직접 입력해 주세요');
@@ -1090,7 +1090,7 @@ function renderSceneUrls(n){
   (sceneUrls[n]||[]).forEach((url,idx)=>{
     if(!url)return;
     const item=document.createElement('div'); item.className='url-item';
-    item.innerHTML=`<a href="${esc(url)}" target="_blank">${esc(url)}</a><button type="button" onclick="removeSceneUrl(${n},${idx})">✕</button>`;
+    item.innerHTML=`<a href="${esc(url)}" target="_blank">${esc(url)}</a><button type="button" onclick="removeSceneUrl(${n},${idx})">×</button>`;
     list.appendChild(item);
   });
 }
@@ -1104,7 +1104,7 @@ function addImgRef(){
   if(!url)return; imgRefUrls.push(url); input.value='';
   const idx=imgRefUrls.length-1;
   const item=document.createElement('div'); item.className='url-item'; item.id='imgref-'+idx;
-  item.innerHTML=`<a href="${esc(url)}" target="_blank">${esc(url)}</a><button type="button" onclick="removeImgRef(${idx})">✕</button>`;
+  item.innerHTML=`<a href="${esc(url)}" target="_blank">${esc(url)}</a><button type="button" onclick="removeImgRef(${idx})">×</button>`;
   document.getElementById('imgref-list').appendChild(item);
 }
 function removeImgRef(idx){imgRefUrls[idx]=null;const el=document.getElementById('imgref-'+idx);if(el)el.remove();}
@@ -1121,7 +1121,7 @@ function addCopyRow(zone,ko,eng){
         <button type="button" class="btn-translate" id="tr-ce-${n}">번역</button>
       </div>
     </td>
-    <td><button type="button" class="row-del" onclick="document.getElementById('crow-${n}').remove()">✕</button></td>`;
+    <td><button type="button" class="row-del" onclick="document.getElementById('crow-${n}').remove()">×</button></td>`;
   document.getElementById('copyRows').appendChild(tr);
   bindAutoTranslate('ck-'+n,'ce-'+n,'tr-ce-'+n);
 }
