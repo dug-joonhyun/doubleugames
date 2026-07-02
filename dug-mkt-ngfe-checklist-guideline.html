@@ -1694,10 +1694,6 @@ const SLACK_COPY_ITEMS = [
 
 const SLACK_COPY_CLIPBOARD = SLACK_COPY_ITEMS.join('\n');
 
-const SLACK_COPY_PLAIN = `신규 게임 마케팅 정보 요청 시 PM에게 슬랙으로 아래 정보 전달 요청
-
-${SLACK_COPY_CLIPBOARD}`;
-
 function cloneData(value) {
   return JSON.parse(JSON.stringify(value));
 }
@@ -1919,13 +1915,6 @@ function buildConfluenceHtml() {
   <tr><td>1차 마케팅 캠페인 테스트 기간</td><td>${escHtml(formatDateRange(projectData.marketingStart, projectData.marketingEnd))}</td></tr>
 </table>
 
-<table border="1" cellpadding="8" cellspacing="0" bgcolor="#FEF3C7">
-  <tr><td>
-    <p><strong>신규 게임 마케팅 정보 요청 시 PM에게 슬랙으로 아래 정보 전달 요청</strong></p>
-    <p>${SLACK_COPY_ITEMS.map(item => escHtml(item)).join('<br/>')}</p>
-  </td></tr>
-</table>
-
 <h2>2. 테스트 개요</h2>
 <p>캠페인 설정은 <strong>앱러빈 기본 설정값</strong>을 따르며, 예외 시 하단 도표 내 변경 사항 반영</p>
 <h3>마케팅팀 앱러빈 기본 설정값</h3>
@@ -1993,8 +1982,6 @@ function buildConfluencePlain() {
   lines.push(`|소재 드롭박스 링크|${projectData.dropboxLink || '—'}|`);
   lines.push(`|테크니컬 캠페인 테스트 기간|${formatDateRange(projectData.technicalStart, projectData.technicalEnd)}|`);
   lines.push(`|1차 마케팅 캠페인 테스트 기간|${formatDateRange(projectData.marketingStart, projectData.marketingEnd)}|`);
-  lines.push('');
-  lines.push(SLACK_COPY_PLAIN);
   lines.push('');
   lines.push('h1. 2. 테스트 개요');
   lines.push('캠페인 설정은 앱러빈 기본 설정값을 따르며, 예외 시 하단 도표 내 변경 사항 반영');
@@ -2653,15 +2640,6 @@ const checklistItems = [
     note: '광고 라이브 후 플랫폼팀에 요청, API Access 더블체크 · 바이브 코딩으로 제작 시 미 요청'
   },
   {
-    id: 'marketing-plan',
-    title: '마케팅 플랜 문서 공유',
-    media: '기타',
-    automation: 'manual',
-    owner: 'MKT',
-    os: 'both',
-    note: '캠페인 시작 3일 전 필수 공유 → IAA / IAP 기획 시 비중 사전 확인 후 작성'
-  },
-  {
     id: 'iaa-store-url',
     title: 'IAA 네트워크 별 Store URL 업데이트',
     media: '각 네트워크 별로 진행',
@@ -2838,13 +2816,15 @@ function renderEventOsPanel(id, state) {
 
 function addEventRow() {
   syncEventRowsFromDom();
-  eventRows.push({
+  const newRow = {
     id: `evt-${Date.now()}`,
-    eventKey: 'af_level_achieved',
+    eventKey: 'custom',
     customEvent: ''
-  });
+  };
+  eventRows.push(newRow);
   saveEventRows();
   renderEventTable();
+  focusEventCustomInput(newRow.id);
 }
 
 function deleteEventRow(rowId) {
